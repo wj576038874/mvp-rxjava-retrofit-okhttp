@@ -25,10 +25,8 @@ public class OkHttpUtils {
     /**
      * 登陆所用的Retrofit
      */
-    public static Retrofit loginRetrofit;
+    private static Retrofit loginRetrofit;
 
-
-    private static String BASEURL = "http://121.8.249.13:8081/gdmsaec-app/act/";
 
     /**
      * 获取登陆Retrofit的实例
@@ -38,7 +36,7 @@ public class OkHttpUtils {
     public static Retrofit getLoginRetrofit() {
         if (loginRetrofit == null) {
             loginRetrofit = new Retrofit.Builder()
-                    .baseUrl(BASEURL)
+                    .baseUrl("http://121.8.249.13:8081/gdmsaec-app/act/")
                     .addConverterFactory(ScalarsConverterFactory.create())
                     .client(getOkHttpClient())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
@@ -47,7 +45,7 @@ public class OkHttpUtils {
         return loginRetrofit;
     }
 
-    public static OkHttpClient getOkHttpClient() {
+    private static OkHttpClient getOkHttpClient() {
         if (okHttpClient == null) {
             OkHttpClient.Builder builder = new OkHttpClient.Builder();
             builder.connectTimeout(15, TimeUnit.SECONDS);
