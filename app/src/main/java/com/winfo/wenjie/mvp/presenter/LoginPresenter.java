@@ -4,7 +4,6 @@ import com.winfo.wenjie.mvp.model.LoginModel;
 import com.winfo.wenjie.mvp.view.ILoginView;
 import com.winfo.wenjie.request.DialogSubscriber;
 import com.winfo.wenjie.request.OkHttpUtils;
-
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 

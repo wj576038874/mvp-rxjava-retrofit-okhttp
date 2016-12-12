@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.winfo.wenjie.R;
 import com.winfo.wenjie.mvp.presenter.LoginPresenter;
 import com.winfo.wenjie.mvp.view.ILoginView;
@@ -38,7 +37,9 @@ public class MainActivity extends AppCompatActivity implements ILoginView , View
 
         dialog = DialogUtils.createLoadingDialog(this,"登陆中...");
         button = (Button) findViewById(R.id.button);
-        button.setOnClickListener(this);
+        if(button != null){
+            button.setOnClickListener(this);
+        }
         textView = (TextView) findViewById(R.id.textview);
         editText1 = (EditText) findViewById(R.id.editText);
         editText2 = (EditText) findViewById(R.id.editText2);

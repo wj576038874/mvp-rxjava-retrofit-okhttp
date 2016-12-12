@@ -2,9 +2,7 @@ package com.winfo.wenjie.request;
 
 import android.app.Dialog;
 import android.text.TextUtils;
-
 import java.net.SocketTimeoutException;
-
 import retrofit2.adapter.rxjava.HttpException;
 import rx.Subscriber;
 
