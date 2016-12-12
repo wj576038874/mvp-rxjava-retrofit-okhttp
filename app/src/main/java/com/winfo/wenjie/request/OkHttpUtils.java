@@ -9,7 +9,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 /**
  * @ProjectName: MvpRxjavaRetrofitDemo
- * @PackageName com.winfo.wenjie.request
+ * @PackageName: com.winfo.wenjie.request
  * @FileName: com.winfo.wenjie.request.OkHttpUtils.java
  * @Author: wenjie
  * @Date: 2016-12-12 14:17
