@@ -37,7 +37,7 @@ public class LoginModel implements ILoginModel {
         /**
          * 订阅者
          */
-        Subscriber<ResponseResult<UserInfo>> subscriber = new DialogSubscriber<ResponseResult<UserInfo>>(dialog) {
+        Subscriber<ResponseResult<UserInfo>> subscriber = new DialogSubscriber<ResponseResult<UserInfo>>(dialog , false) {
             @Override
             public void onSuccess(ResponseResult<UserInfo> userInfoUserResponseResult) {
                 switch (userInfoUserResponseResult.getResult()) {
