@@ -15,7 +15,7 @@
         android:text="15012551396"
         android:hint="请输入手机号码"
         android:layout_marginTop="30dp"
-        android:id="@+id/editText" />
+        android:id="@+id/id_et_username" />
 
     <EditText
         android:layout_width="match_parent"
@@ -25,13 +25,13 @@
         android:text="123456aa"
         android:ems="11"
         android:layout_marginTop="30dp"
-        android:id="@+id/editText2" />
+        android:id="@+id/id_et_password" />
 
     <Button
         android:layout_width="match_parent"
         android:text="登录"
         android:layout_marginTop="20dp"
-        android:id="@+id/button"
+        android:id="@+id/id_btn_login"
         android:layout_height="50dp" />
 
     <TextView
