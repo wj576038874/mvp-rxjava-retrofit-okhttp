@@ -1,9 +1,8 @@
 package com.winfo.wenjie.mvp.view.impl;
 
 import android.app.Dialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -12,14 +11,22 @@ import com.winfo.wenjie.R;
 import com.winfo.wenjie.mvp.presenter.LoginPresenter;
 import com.winfo.wenjie.mvp.view.ILoginView;
 import com.winfo.wenjie.utils.DialogUtils;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity implements ILoginView , View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements ILoginView {
 
+    @BindView(R.id.id_et_username)
+    EditText etUserName;
+    @BindView(R.id.id_et_password)
+    EditText etPassword;
+    @BindView(R.id.textview)
+    TextView textView;
+    @BindView(R.id.id_btn_login)
+    Button btnLogin;
     private Dialog dialog;
 
-    private Button button;
-    private TextView textView;
-    private EditText editText1 , editText2;
     /**
      * p层对象 来调取p层的方法
      */
@@ -29,20 +36,14 @@ public class MainActivity extends AppCompatActivity implements ILoginView , View
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
         /**
          * 实例化p  构造方法需要一个实现了ILoginView的类 当前activity实现了ILoginView 所以直接传this即可
          */
         loginPresenter = new LoginPresenter(this);
 
-        dialog = DialogUtils.createLoadingDialog(this,"登陆中...");
-        button = (Button) findViewById(R.id.button);
-        if(button != null){
-            button.setOnClickListener(this);
-        }
-        textView = (TextView) findViewById(R.id.textview);
-        editText1 = (EditText) findViewById(R.id.editText);
-        editText2 = (EditText) findViewById(R.id.editText2);
+        dialog = DialogUtils.createLoadingDialog(this, "登陆中...");
     }
 
     @Override
@@ -52,17 +53,17 @@ public class MainActivity extends AppCompatActivity implements ILoginView , View
 
     @Override
     public String getUserName() {
-        return editText1.getText().toString();
+        return etUserName.getText().toString();
     }
 
     @Override
     public String getPassword() {
-        return editText2.getText().toString();
+        return etPassword.getText().toString();
     }
 
     @Override
     public void showMsg(String msg) {
-        Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -70,13 +71,11 @@ public class MainActivity extends AppCompatActivity implements ILoginView , View
         textView.setText(result);
     }
 
-    @Override
-    public void onClick(View v) {
-        if(v.getId() == R.id.button){
-            /**
-             * 调用登录方法进行登陆
-             */
-            loginPresenter.login();
-        }
+    @OnClick(R.id.id_btn_login)
+    public void onClick() {
+        /**
+         * 调用登录方法进行登陆
+         */
+        loginPresenter.login();
     }
 }
