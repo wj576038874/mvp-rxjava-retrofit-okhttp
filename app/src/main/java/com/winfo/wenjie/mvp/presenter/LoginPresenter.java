@@ -3,7 +3,6 @@ package com.winfo.wenjie.mvp.presenter;
 import com.winfo.wenjie.domain.UserInfo;
 import com.winfo.wenjie.mvp.model.impl.LoginModel;
 import com.winfo.wenjie.mvp.view.ILoginView;
-import com.winfo.wenjie.request.OkHttpUtils;
 
 /**
  * @ProjectName: MvpRxjavaRetrofitDemo
@@ -36,7 +35,7 @@ public class LoginPresenter {
         /**
          *示例化loginmodel对象  固定写法  Retrofit.create(Class);
          */
-        this.loginModel = OkHttpUtils.getRetrofit().create(LoginModel.class);
+        this.loginModel = new LoginModel();
     }
 
     /**
