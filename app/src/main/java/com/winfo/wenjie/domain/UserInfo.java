@@ -1,332 +1,204 @@
 package com.winfo.wenjie.domain;
 
+import java.io.Serializable;
 /**
- * @ProjectName: MvpRxjavaRetrofitDemo
- * @PackageName: com.winfo.wenjie.domain
- * @FileName: com.winfo.wenjie.domain.UserInfo.java
- * @Author: wenjie
- * @Date: 2016-12-29 16:26
- * @Description:
- * @Version:
+ * 公众号用户表
+ * @author zhufeng
+ * @version 2016年9月14日
  */
-public class UserInfo {
+@SuppressWarnings("unused")
+public class UserInfo implements Serializable{
 
-    private long yhxxid;
+    private long id;
     /**
-     * 状态标示
+     * 用户帐号
      */
-    private String ztbs;
-    /**
-     * 身份特征码
-     */
-    private String sftzm;
-    /**
-     * 用户姓名
-     */
-    private String yhxm;
-    /**
-     * 所属部门
-     */
-    private String ssbm;
-    /**
-     * 民族
-     */
-    private String minzu;
-    /**
-     * 学历
-     */
-    private String xueli;
-    /**
-     * 职称
-     */
-    private String zhicheng;
-    /**
-     * 职务
-     */
-    private String zhiwu;
-    /**
-     * 地址
-     */
-    private String dizhi;
-    /**
-     * 邮编
-     */
-    private String youbian;
-    /**
-     * 电子邮件
-     */
-    private String youjian;
-    /**
-     * 电话
-     */
-    private String dianhua;
-    /**
-     * 移动电话
-     */
-    private String shouji;
-    /**
-     * 性别
-     */
-    private String xingbie;
-    /**
-     * 政治面貌
-     */
-    private String zzmm;
+    private String userName;
     /**
      * 用户密码
      */
-    private String yhmm;
+    private String passWord;
     /**
-     * 机构代码
+     * 用户姓名
      */
-    private String jgdm;
-
+    private String realName;
     /**
-     * 机构名称
+     * 所属单位
      */
-    private String jgdmName;
-
-
+    private String companyID;
     /**
-     * 证件号码
+     * 所属部门
      */
-    private String zjhm;
+    private String departID;
     /**
-     * 视频会议账号
+     * 所属岗位（角色编号，之间用逗号隔开）
      */
-    private String sphyzh;
+    private String roleIDs;
     /**
-     * 视频会议密码
+     * 所属职位【暂不使用】
      */
-    private String sphymm;
+    private String position;
     /**
-     * 身份证号码
+     * 联系方式
      */
-    private String idcard;
+    private String tel;
     /**
-     * 用户海图操作
+     * 手机号码
      */
-    private String htcz;
+    private String phoneNo;
+    /**
+     * email
+     */
+    private String email;
+    /**
+     * 描述信息
+     */
+    private String rmk;
+    /**
+     * 状态
+     */
+    private String status;
+    /**
+     * 是否删除（1：删除；0：没有删除）
+     */
+    private String isDeleted;
+    /**
+     * 注册时间
+     */
+    private String addTime;
 
-    public long getYhxxid() {
-        return yhxxid;
+    private String mmsi;
+    /**
+     * 验证码
+     */
+    private String code;
+
+
+    public String getMmsi() {
+        return mmsi;
+    }
+    public void setMmsi(String mmsi) {
+        this.mmsi = mmsi;
+    }
+    public String getCode() {
+        return code;
+    }
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    public void setYhxxid(long yhxxid) {
-        this.yhxxid = yhxxid;
+    public long getId() {
+        return id;
+    }
+    public void setId(long id) {
+        this.id = id;
+    }
+    public String getUserName() {
+        return userName;
+    }
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+    public String getPassWord() {
+        return passWord;
+    }
+    public void setPassWord(String passWord) {
+        this.passWord = passWord;
+    }
+    public String getRealName() {
+        return realName;
+    }
+    public void setRealName(String realName) {
+        this.realName = realName;
+    }
+    public String getCompanyID() {
+        return companyID;
+    }
+    public void setCompanyID(String companyID) {
+        this.companyID = companyID;
+    }
+    public String getDepartID() {
+        return departID;
+    }
+    public void setDepartID(String departID) {
+        this.departID = departID;
+    }
+    public String getRoleIDs() {
+        return roleIDs;
+    }
+    public void setRoleIDs(String roleIDs) {
+        this.roleIDs = roleIDs;
+    }
+    public String getPosition() {
+        return position;
+    }
+    public void setPosition(String position) {
+        this.position = position;
+    }
+    public String getTel() {
+        return tel;
+    }
+    public void setTel(String tel) {
+        this.tel = tel;
     }
 
-    public String getZtbs() {
-        return ztbs;
+    public String getEmail() {
+        return email;
     }
-
-    public void setZtbs(String ztbs) {
-        this.ztbs = ztbs;
+    public void setEmail(String email) {
+        this.email = email;
     }
-
-    public String getSftzm() {
-        return sftzm;
+    public String getRmk() {
+        return rmk;
     }
-
-    public void setSftzm(String sftzm) {
-        this.sftzm = sftzm;
+    public void setRmk(String rmk) {
+        this.rmk = rmk;
     }
-
-    public String getYhxm() {
-        return yhxm;
+    public String getStatus() {
+        return status;
     }
-
-    public void setYhxm(String yhxm) {
-        this.yhxm = yhxm;
+    public void setStatus(String status) {
+        this.status = status;
     }
-
-    public String getSsbm() {
-        return ssbm;
+    public String getIsDeleted() {
+        return isDeleted;
     }
-
-    public void setSsbm(String ssbm) {
-        this.ssbm = ssbm;
+    public void setIsDeleted(String isDeleted) {
+        this.isDeleted = isDeleted;
     }
-
-    public String getMinzu() {
-        return minzu;
+    public String getAddTime() {
+        return addTime;
     }
-
-    public void setMinzu(String minzu) {
-        this.minzu = minzu;
+    public void setAddTime(String addTime) {
+        this.addTime = addTime;
     }
-
-    public String getXueli() {
-        return xueli;
+    public String getPhoneNo() {
+        return phoneNo;
     }
-
-    public void setXueli(String xueli) {
-        this.xueli = xueli;
-    }
-
-    public String getZhicheng() {
-        return zhicheng;
-    }
-
-    public void setZhicheng(String zhicheng) {
-        this.zhicheng = zhicheng;
-    }
-
-    public String getZhiwu() {
-        return zhiwu;
-    }
-
-    public void setZhiwu(String zhiwu) {
-        this.zhiwu = zhiwu;
-    }
-
-    public String getDizhi() {
-        return dizhi;
-    }
-
-    public void setDizhi(String dizhi) {
-        this.dizhi = dizhi;
-    }
-
-    public String getYoubian() {
-        return youbian;
-    }
-
-    public void setYoubian(String youbian) {
-        this.youbian = youbian;
-    }
-
-    public String getYoujian() {
-        return youjian;
-    }
-
-    public void setYoujian(String youjian) {
-        this.youjian = youjian;
-    }
-
-    public String getDianhua() {
-        return dianhua;
-    }
-
-    public void setDianhua(String dianhua) {
-        this.dianhua = dianhua;
-    }
-
-    public String getShouji() {
-        return shouji;
-    }
-
-    public void setShouji(String shouji) {
-        this.shouji = shouji;
-    }
-
-    public String getXingbie() {
-        return xingbie;
-    }
-
-    public void setXingbie(String xingbie) {
-        this.xingbie = xingbie;
-    }
-
-    public String getZzmm() {
-        return zzmm;
-    }
-
-    public void setZzmm(String zzmm) {
-        this.zzmm = zzmm;
-    }
-
-    public String getYhmm() {
-        return yhmm;
-    }
-
-    public void setYhmm(String yhmm) {
-        this.yhmm = yhmm;
-    }
-
-    public String getJgdm() {
-        return jgdm;
-    }
-
-    public void setJgdm(String jgdm) {
-        this.jgdm = jgdm;
-    }
-
-    public String getJgdmName() {
-        return jgdmName;
-    }
-
-    public void setJgdmName(String jgdmName) {
-        this.jgdmName = jgdmName;
-    }
-
-    public String getZjhm() {
-        return zjhm;
-    }
-
-    public void setZjhm(String zjhm) {
-        this.zjhm = zjhm;
-    }
-
-    public String getSphyzh() {
-        return sphyzh;
-    }
-
-    public void setSphyzh(String sphyzh) {
-        this.sphyzh = sphyzh;
-    }
-
-    public String getSphymm() {
-        return sphymm;
-    }
-
-    public void setSphymm(String sphymm) {
-        this.sphymm = sphymm;
-    }
-
-    public String getIdcard() {
-        return idcard;
-    }
-
-    public void setIdcard(String idcard) {
-        this.idcard = idcard;
-    }
-
-    public String getHtcz() {
-        return htcz;
-    }
-
-    public void setHtcz(String htcz) {
-        this.htcz = htcz;
+    public void setPhoneNo(String phoneNo) {
+        this.phoneNo = phoneNo;
     }
 
     @Override
     public String toString() {
         return "UserInfo{" +
-                "yhxxid=" + yhxxid +
-                ", ztbs='" + ztbs + '\'' +
-                ", sftzm='" + sftzm + '\'' +
-                ", yhxm='" + yhxm + '\'' +
-                ", ssbm='" + ssbm + '\'' +
-                ", minzu='" + minzu + '\'' +
-                ", xueli='" + xueli + '\'' +
-                ", zhicheng='" + zhicheng + '\'' +
-                ", zhiwu='" + zhiwu + '\'' +
-                ", dizhi='" + dizhi + '\'' +
-                ", youbian='" + youbian + '\'' +
-                ", youjian='" + youjian + '\'' +
-                ", dianhua='" + dianhua + '\'' +
-                ", shouji='" + shouji + '\'' +
-                ", xingbie='" + xingbie + '\'' +
-                ", zzmm='" + zzmm + '\'' +
-                ", yhmm='" + yhmm + '\'' +
-                ", jgdm='" + jgdm + '\'' +
-                ", jgdmName='" + jgdmName + '\'' +
-                ", zjhm='" + zjhm + '\'' +
-                ", sphyzh='" + sphyzh + '\'' +
-                ", sphymm='" + sphymm + '\'' +
-                ", idcard='" + idcard + '\'' +
-                ", htcz='" + htcz + '\'' +
+                "id=" + id +
+                ", userName='" + userName + '\'' +
+                ", passWord='" + passWord + '\'' +
+                ", realName='" + realName + '\'' +
+                ", companyID='" + companyID + '\'' +
+                ", departID='" + departID + '\'' +
+                ", roleIDs='" + roleIDs + '\'' +
+                ", position='" + position + '\'' +
+                ", tel='" + tel + '\'' +
+                ", phoneNo='" + phoneNo + '\'' +
+                ", email='" + email + '\'' +
+                ", rmk='" + rmk + '\'' +
+                ", status='" + status + '\'' +
+                ", isDeleted='" + isDeleted + '\'' +
+                ", addTime='" + addTime + '\'' +
+                ", mmsi='" + mmsi + '\'' +
+                ", code='" + code + '\'' +
                 '}';
     }
 }
