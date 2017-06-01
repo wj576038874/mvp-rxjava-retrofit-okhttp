@@ -299,4 +299,34 @@ public class UserInfo {
     public void setHtcz(String htcz) {
         this.htcz = htcz;
     }
+
+    @Override
+    public String toString() {
+        return "UserInfo{" +
+                "yhxxid=" + yhxxid +
+                ", ztbs='" + ztbs + '\'' +
+                ", sftzm='" + sftzm + '\'' +
+                ", yhxm='" + yhxm + '\'' +
+                ", ssbm='" + ssbm + '\'' +
+                ", minzu='" + minzu + '\'' +
+                ", xueli='" + xueli + '\'' +
+                ", zhicheng='" + zhicheng + '\'' +
+                ", zhiwu='" + zhiwu + '\'' +
+                ", dizhi='" + dizhi + '\'' +
+                ", youbian='" + youbian + '\'' +
+                ", youjian='" + youjian + '\'' +
+                ", dianhua='" + dianhua + '\'' +
+                ", shouji='" + shouji + '\'' +
+                ", xingbie='" + xingbie + '\'' +
+                ", zzmm='" + zzmm + '\'' +
+                ", yhmm='" + yhmm + '\'' +
+                ", jgdm='" + jgdm + '\'' +
+                ", jgdmName='" + jgdmName + '\'' +
+                ", zjhm='" + zjhm + '\'' +
+                ", sphyzh='" + sphyzh + '\'' +
+                ", sphymm='" + sphymm + '\'' +
+                ", idcard='" + idcard + '\'' +
+                ", htcz='" + htcz + '\'' +
+                '}';
+    }
 }
