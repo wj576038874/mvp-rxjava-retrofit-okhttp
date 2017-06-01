@@ -1,10 +1,11 @@
 package com.winfo.wenjie.request;
 
 import java.util.concurrent.TimeUnit;
+
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.scalars.ScalarsConverterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * @ProjectName: MvpRxjavaRetrofitDemo
@@ -21,28 +22,29 @@ public class OkHttpUtils {
      */
     private static OkHttpClient okHttpClient;
 
+
     /**
-     * 登陆所用的Retrofit
+     * Retrofit
      */
-    private static Retrofit loginRetrofit;
-
+    private static Retrofit retrofit;
 
     /**
-     * 获取登陆Retrofit的实例
+     * 获取Retrofit的实例
      *
-     * @return loginRetrofit
+     * @return retrofit
      */
-    public static Retrofit getLoginRetrofit() {
-        if (loginRetrofit == null) {
-            loginRetrofit = new Retrofit.Builder()
-                    .baseUrl("http://121.8.249.13:8081/gdmsaec-app/act/")
-                    .addConverterFactory(ScalarsConverterFactory.create())
+    public static Retrofit getRetrofit() {
+        if (retrofit == null) {
+            retrofit = new Retrofit.Builder()
+                    .baseUrl("http://192.168.0.88:8888/gdmsaec-app/act/")
+                    .addConverterFactory(GsonConverterFactory.create())
                     .client(getOkHttpClient())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .build();
         }
-        return loginRetrofit;
+        return retrofit;
     }
+
 
     private static OkHttpClient getOkHttpClient() {
         if (okHttpClient == null) {

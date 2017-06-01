@@ -2,8 +2,10 @@ package com.winfo.wenjie.request;
 
 import android.app.Dialog;
 import android.text.TextUtils;
+
+import java.net.ConnectException;
 import java.net.SocketTimeoutException;
-import retrofit2.adapter.rxjava.HttpException;
+
 import rx.Subscriber;
 
 /**
@@ -15,30 +17,32 @@ import rx.Subscriber;
  * @Description: 订阅者
  * @Version:
  */
-public abstract class DialogSubscriber<T> extends Subscriber<T> implements  DialogCancelListener{
+public abstract class DialogSubscriber<T> extends Subscriber<T> implements DialogCancelListener {
 
     /**
      * 定义一个请求成功的抽象方法 子类必须实现并在实现中进行处理服务器返回的数据
+     *
      * @param t 服务器返回的数据
      */
     protected abstract void onSuccess(T t);
 
     /**
      * 定义一个请求失败的抽象方法 子类必须实现并在实现中进行服务器返回数据的处理
+     *
      * @param msg 服务器返回的错误信息
      */
     protected abstract void onFailure(String msg);
 
     private DialogHandler dialogHandler;
 
-    public DialogSubscriber(Dialog dialog){
-        dialogHandler = new DialogHandler(dialog , this);
+    public DialogSubscriber(Dialog dialog) {
+        dialogHandler = new DialogHandler(dialog, this);
     }
 
     /**
      * 显示对话框 发送一个显示对话框的消息给dialoghandler  由他自己处理（也就是dialog中hanldermesage处理该消息）
      */
-    private void showProgressDialog(){
+    private void showProgressDialog() {
         if (dialogHandler != null) {
             dialogHandler.obtainMessage(DialogHandler.SHOW_PROGRESS_DIALOG).sendToTarget();
         }
@@ -47,7 +51,7 @@ public abstract class DialogSubscriber<T> extends Subscriber<T> implements  Dial
     /**
      * 隐藏对话框 ....
      */
-    private void dismissProgressDialog(){
+    private void dismissProgressDialog() {
         if (dialogHandler != null) {
             dialogHandler.obtainMessage(DialogHandler.DISMISS_PROGRESS_DIALOG).sendToTarget();
             dialogHandler = null;
@@ -73,26 +77,21 @@ public abstract class DialogSubscriber<T> extends Subscriber<T> implements  Dial
 
     /**
      * 请求出错
+     *
      * @param e
      */
     @Override
     public void onError(Throwable e) {
         dismissProgressDialog();
-        String msg = "";
-        if (e instanceof HttpException) {
-            HttpException httpException = (HttpException) e;
-            int code = httpException.code();
-            msg = httpException.getMessage();
-            if (code == 504) {
-                msg = "网络不给力";
-            }
-            if (code == 502 || code == 404) {
-                msg = "服务器异常，请稍后再试";
-            }
-        } else if(e instanceof SocketTimeoutException){
-            msg = "链接超时，请稍后重试！";
+        String msg;
+        if (e instanceof SocketTimeoutException) {
+            msg = "请求超时。请稍后重试！";
+        } else if (e instanceof ConnectException) {
+            msg = "请求超时。请稍后重试！";
+        } else {
+            msg = "请求未能成功，请稍后重试！";
         }
-        if (!TextUtils.isEmpty(msg)){
+        if (!TextUtils.isEmpty(msg)) {
             onFailure(msg);
         }
     }
@@ -100,6 +99,7 @@ public abstract class DialogSubscriber<T> extends Subscriber<T> implements  Dial
 
     /**
      * 请求成功
+     *
      * @param t
      */
     @Override
