@@ -19,6 +19,7 @@ import rx.Subscriber;
  */
 public abstract class DialogSubscriber<T> extends Subscriber<T> implements DialogCancelListener {
 
+    private boolean isShowDialog;
     /**
      * 定义一个请求成功的抽象方法 子类必须实现并在实现中进行处理服务器返回的数据
      *
@@ -35,8 +36,27 @@ public abstract class DialogSubscriber<T> extends Subscriber<T> implements Dialo
 
     private DialogHandler dialogHandler;
 
-    public DialogSubscriber(Dialog dialog) {
-        dialogHandler = new DialogHandler(dialog, this);
+    /**
+     *
+     * @param dialog 对话框
+     * @param isShowDialog 是否显示加载的对话框
+     *                     这里的dialog要特别说明一下，把它当做DialogHandler构造参数传递进去，来进行具体的对话框的操作
+     *                     其实是可以直接将context作为构造参数传递进去，在DialogHandler中通过context对象来创建dialog对象
+     *                     因为感觉传递context对象不是很好，而且dialog加载框的提示语也会根据请求的不同而不同比如：
+     *                     1、登陆请求 对话框需要是  登陆中...
+     *                     2、加载数据  对话框需要时  数据加载中...
+     *                     3、等等
+     *                     所以我们直接将dialog的创建放在m层，作为参数传递进来，这样就可以适应很多请求
+     *                     或许会有人觉得这事强迫症，可以直接  加载中...代替所有的啊，这样不是也可以吗？
+     *                     的确可以但是，这样的话，需要传递context对象到这里了。为了避免传递context对象
+     *                     所以选择这样的方式，也会有人说dialog携带了context引用啊。传conxtexthedialog都一样，
+     *                     这里我就不处理了，你们自己想办法解决
+     *                     isShowDialog这个就比较简单，请求时控制dialog是否显示，不是所有的请求都需要加载框比如下拉刷新
+     *                     这些就不需要，所以这里灵活一点，自己根据具体的请求传递对应的值
+     */
+    public DialogSubscriber(Dialog dialog , boolean isShowDialog) {
+        this.isShowDialog = isShowDialog;
+        dialogHandler = new DialogHandler(dialog , this);
     }
 
     /**
@@ -60,14 +80,17 @@ public abstract class DialogSubscriber<T> extends Subscriber<T> implements Dialo
 
     /**
      * 请求开始
+     * 先判断isShowDialog的值，如果为false就不显示对话框，为true才显示
      */
     @Override
     public void onStart() {
-        showProgressDialog();
+        if(isShowDialog){
+            showProgressDialog();
+        }
     }
 
     /**
-     * 请求完成
+     * 请求完成，隐藏对话框
      */
     @Override
     public void onCompleted() {
@@ -77,7 +100,8 @@ public abstract class DialogSubscriber<T> extends Subscriber<T> implements Dialo
 
     /**
      * 请求出错
-     *
+     * 这里异常处理的不是很完善，你们自己多写一些请求可能出现的异常
+     * 进行捕获，这样可以直接将异常信息返回到view层可见页面，开发时一眼也可以看出具体的问题
      * @param e
      */
     @Override
