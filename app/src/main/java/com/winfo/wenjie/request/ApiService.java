@@ -25,6 +25,6 @@ public interface ApiService {
      * @return
      */
     @FormUrlEncoded
-    @POST("UserInfo/loginin")
+    @POST("AppUser/loginin")
     Observable<ResponseResult<UserInfo>> login(@Field("username") String username, @Field("password") String password);
 }
