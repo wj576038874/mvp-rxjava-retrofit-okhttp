@@ -11,21 +11,20 @@ import retrofit2.http.POST;
 import rx.Observable;
 
 /**
- * @ProjectName: MvpRxjavaRetrofitDemo
- * @PackageName: com.winfo.wenjie.request
- * @FileName: com.winfo.wenjie.request.ApiService.java
- * @Author: wenjie
- * @Date: 2017-01-17 16:54
- * @Description:
- * @Version:
+ * ProjectName: MvpRxjavaRetrofitDemo
+ * PackageName: com.winfo.wenjie.request
+ * FileName: com.winfo.wenjie.request.ApiService.java
+ * Author: wenjie
+ * Date: 2017-01-17 16:54
+ * Description:
  */
 public interface ApiService {
     /**
      * 用户登陆
      *
-     * @param username
-     * @param password
-     * @return
+     * @param username username
+     * @param password password
+     * @return return
      */
     @FormUrlEncoded
     @POST("AppUser/loginin")
