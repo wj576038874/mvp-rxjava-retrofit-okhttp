@@ -26,13 +26,13 @@ import butterknife.OnClick;
  */
 public class MainActivity extends BaseMvpActivity<ILoginView, LoginPresenter> implements ILoginView {
 
-    @BindView(R.id.id_et_username)
+    @BindView(R.id.username)
     EditText etUserName;
-    @BindView(R.id.id_et_password)
+    @BindView(R.id.password)
     EditText etPassword;
-    @BindView(R.id.textview)
+    @BindView(R.id.result)
     TextView textView;
-    @BindView(R.id.id_btn_login)
+    @BindView(R.id.login)
     Button btnLogin;
     private Dialog dialog;
 
@@ -67,10 +67,10 @@ public class MainActivity extends BaseMvpActivity<ILoginView, LoginPresenter> im
 
     @Override
     public void setText(String result) {
-        textView.setText(result);
+        textView.setText("登录成功！Token：\n"+result);
     }
 
-    @OnClick(R.id.id_btn_login)
+    @OnClick(R.id.login)
     public void onClick() {
         /*
          * 调用登录方法进行登陆

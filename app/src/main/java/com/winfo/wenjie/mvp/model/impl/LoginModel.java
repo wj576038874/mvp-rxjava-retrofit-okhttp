@@ -1,8 +1,10 @@
 package com.winfo.wenjie.mvp.model.impl;
 
 import android.app.Dialog;
-import com.winfo.wenjie.domain.UserInfo;
+
+import com.winfo.wenjie.domain.Token;
 import com.winfo.wenjie.mvp.model.ILoginModel;
+import com.winfo.wenjie.mvp.model.OnLoadDatasListener;
 import com.winfo.wenjie.request.ApiService;
 import com.winfo.wenjie.request.DialogSubscriber;
 import com.winfo.wenjie.request.OkHttpUtils;
@@ -22,61 +24,29 @@ import rx.schedulers.Schedulers;
  */
 public class LoginModel implements ILoginModel {
 
-
     @Override
-    public void login(Dialog dialog, String username, String password, final OnLoginListener loginListener) {
-
-        /*
+    public void login(Dialog dialog, String client_id, String client_secret, String grant_type, String username, String password, final OnLoadDatasListener<Token> onLoadDatasListener) {
+         /*
          * 被订阅者
          */
-        Observable<ResponseResult<UserInfo>> observable = OkHttpUtils.getRetrofit().create(ApiService.class).login(username, password);
-
+        Observable<Token> observable = OkHttpUtils.getRetrofit().create(ApiService.class).getToken(client_id, client_secret, grant_type, username, password);
         /*
          * 订阅者
          */
-        Subscriber<ResponseResult<UserInfo>> subscriber = new DialogSubscriber<ResponseResult<UserInfo>>(dialog , true) {
+        Subscriber<Token> subscriber = new DialogSubscriber<Token>(dialog , true) {
             @Override
-            public void onSuccess(ResponseResult<UserInfo> userInfoUserResponseResult) {
-                switch (userInfoUserResponseResult.getResult()) {
-                    case 1:
-                        loginListener.onSuccess(userInfoUserResponseResult.getData());
-                        break;
-                    case 0:
-                        loginListener.onFailure(userInfoUserResponseResult.getMsg());
-                        break;
-                    case -1:
-                        loginListener.onFailure(userInfoUserResponseResult.getMsg());
-                        break;
-                }
+            protected void onSuccess(Token token) {
+                onLoadDatasListener.onSuccess(token);
             }
 
             @Override
-            public void onFailure(String msg) {
-                loginListener.onFailure(msg);
+            protected void onFailure(String msg) {
+                onLoadDatasListener.onFailure(msg);
             }
         };
-
         observable.subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
-    }
-
-    /**
-     * 回调接口用来把数据返回给p
-     */
-    public interface OnLoginListener {
-
-        /**
-         * 请求成功的回调方法
-         * @param userInfo  用户信息
-         */
-        void onSuccess(UserInfo userInfo);
-
-        /**
-         * 请求失败的回调方法
-         * @param msg   失败的信息
-         */
-        void onFailure(String msg);
     }
 }

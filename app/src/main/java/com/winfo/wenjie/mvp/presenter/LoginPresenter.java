@@ -1,7 +1,10 @@
 package com.winfo.wenjie.mvp.presenter;
 
-import com.winfo.wenjie.domain.UserInfo;
+import android.text.TextUtils;
+
+import com.winfo.wenjie.domain.Token;
 import com.winfo.wenjie.mvp.base.BaseMvpPresenter;
+import com.winfo.wenjie.mvp.model.OnLoadDatasListener;
 import com.winfo.wenjie.mvp.model.impl.LoginModel;
 import com.winfo.wenjie.mvp.view.ILoginView;
 
@@ -22,7 +25,6 @@ public class LoginPresenter extends BaseMvpPresenter<ILoginView> {
 
     /**
      * mvp模式  p层持有  v 和m 的接口引用 来进行数据的传递  起一个中间层的作用
-     *
      */
     public LoginPresenter() {
         /*
@@ -30,23 +32,26 @@ public class LoginPresenter extends BaseMvpPresenter<ILoginView> {
          */
         this.loginModel = new LoginModel();
     }
-
     /**
      * 登陆
      */
     public void login() {
         if (mView == null) return;
-        loginModel.login(mView.getDialog(), mView.getUserName(), mView.getPassword(), new LoginModel.OnLoginListener() {
+        if (TextUtils.isEmpty(mView.getUserName()) || TextUtils.isEmpty(mView.getPassword())) {
+            mView.showMsg("用户名或密码不能为空");
+            return;
+        }
+        loginModel.login(mView.getDialog(), "", "", "password", mView.getUserName(), mView.getPassword(), new OnLoadDatasListener<Token>() {
             @Override
-            public void onSuccess(UserInfo userInfo) {
+            public void onSuccess(Token token) {
                 //请求成功服务器返回的数据s
-                mView.setText(userInfo.toString());
+                mView.setText(token.getAccess_token());
             }
 
             @Override
-            public void onFailure(String msg) {
+            public void onFailure(String eroor) {
                 //请求成功服务器返回的错误信息
-                mView.showMsg(msg);
+                mView.showMsg(eroor);
             }
         });
     }

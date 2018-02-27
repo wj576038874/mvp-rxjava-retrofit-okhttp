@@ -1,6 +1,8 @@
 package com.winfo.wenjie.request;
 
-import com.winfo.wenjie.domain.UserInfo;
+import com.winfo.wenjie.domain.Token;
+import com.winfo.wenjie.utils.Constant;
+
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
@@ -16,14 +18,19 @@ import rx.Observable;
  */
 public interface ApiService {
     /**
-     * 用户登陆
+     * 获取 Token (一般在登录时调用)
      *
-     * @param username username
-     * @param password password
-     * @return return
+     * @param client_id     客户端 id
+     * @param client_secret 客户端私钥
+     * @param grant_type    授权方式 - 密码
+     * @param username      用户名
+     * @param password      密码
+     * @return Token 实体类
      */
+    @POST("oauth/token")
     @FormUrlEncoded
-    @POST("AppUser/loginin")
-    Observable<ResponseResult<UserInfo>> login(@Field("username") String username, @Field("password") String password);
-
+    Observable<Token> getToken(
+            @Field("client_id") String client_id, @Field("client_secret") String client_secret,
+            @Field("grant_type") String grant_type, @Field("username") String username,
+            @Field("password") String password);
 }
