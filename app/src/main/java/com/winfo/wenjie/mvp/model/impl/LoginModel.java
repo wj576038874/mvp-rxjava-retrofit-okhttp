@@ -86,17 +86,4 @@ public class LoginModel implements ILoginModel {
          */
         void onFailure(String msg);
     }
-
-    public interface OnLoadListener{
-        /**
-         * 请求成功的回调方法
-         */
-        void onSuccess(ResultData resultData);
-
-        /**
-         * 请求失败的回调方法
-         * @param msg   失败的信息
-         */
-        void onFailure(String msg);
-    }
 }

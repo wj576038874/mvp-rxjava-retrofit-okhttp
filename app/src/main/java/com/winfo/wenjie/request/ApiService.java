@@ -31,10 +31,4 @@ public interface ApiService {
     @POST("AppUser/loginin")
     Observable<ResponseResult<UserInfo>> login(@Field("username") String username, @Field("password") String password);
 
-    /**
-     * 加载浮标自动站
-     */
-    @Headers({"Content-Type: application/json", "Accept: application/json"})//需要添加头
-    @POST("Account/RegVerifyCode")
-    Observable<ResultData> RegVerifyCode(@Body RequestBody requestBody);
 }
