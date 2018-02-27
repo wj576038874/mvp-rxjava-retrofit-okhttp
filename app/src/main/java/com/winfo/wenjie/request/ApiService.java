@@ -1,8 +1,6 @@
 package com.winfo.wenjie.request;
 
 import com.winfo.wenjie.domain.Token;
-import com.winfo.wenjie.utils.Constant;
-
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
