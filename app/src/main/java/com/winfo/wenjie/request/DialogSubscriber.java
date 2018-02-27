@@ -2,20 +2,17 @@ package com.winfo.wenjie.request;
 
 import android.app.Dialog;
 import android.text.TextUtils;
-
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
-
 import rx.Subscriber;
 
 /**
- * @ProjectName: MvpRxjavaRetrofitDemo
- * @PackageName com.winfo.wenjie.request
- * @FileName: com.winfo.wenjie.request.DialogSubscriber.java
- * @Author: wenjie
- * @Date: 2016-12-12 14:23
- * @Description: 订阅者
- * @Version:
+ * ProjectName: MvpRxjavaRetrofitDemo
+ * PackageName com.winfo.wenjie.request
+ * FileName: com.winfo.wenjie.request.DialogSubscriber.java
+ * Author: wenjie
+ * Date: 2016-12-12 14:23
+ * Description: 订阅者
  */
 public abstract class DialogSubscriber<T> extends Subscriber<T> implements DialogCancelListener {
 
@@ -54,7 +51,7 @@ public abstract class DialogSubscriber<T> extends Subscriber<T> implements Dialo
      *                     isShowDialog这个就比较简单，请求时控制dialog是否显示，不是所有的请求都需要加载框比如下拉刷新
      *                     这些就不需要，所以这里灵活一点，自己根据具体的请求传递对应的值
      */
-    public DialogSubscriber(Dialog dialog , boolean isShowDialog) {
+    protected DialogSubscriber(Dialog dialog, boolean isShowDialog) {
         this.isShowDialog = isShowDialog;
         dialogHandler = new DialogHandler(dialog , this);
     }
@@ -102,7 +99,7 @@ public abstract class DialogSubscriber<T> extends Subscriber<T> implements Dialo
      * 请求出错
      * 这里异常处理的不是很完善，你们自己多写一些请求可能出现的异常
      * 进行捕获，这样可以直接将异常信息返回到view层可见页面，开发时一眼也可以看出具体的问题
-     * @param e
+     * @param e e
      */
     @Override
     public void onError(Throwable e) {
@@ -124,11 +121,11 @@ public abstract class DialogSubscriber<T> extends Subscriber<T> implements Dialo
     /**
      * 请求成功
      *
-     * @param t
+     * @param t t
      */
     @Override
     public void onNext(T t) {
-        /**
+        /*
          * 请求成功将数据发出去
          */
         onSuccess(t);
@@ -140,7 +137,7 @@ public abstract class DialogSubscriber<T> extends Subscriber<T> implements Dialo
      */
     @Override
     public void onCancel() {
-        /**
+        /*
          * 如果订阅者和被订阅者 没有取消订阅 则取消订阅 以取消网络请求
          */
         if (!this.isUnsubscribed()) {

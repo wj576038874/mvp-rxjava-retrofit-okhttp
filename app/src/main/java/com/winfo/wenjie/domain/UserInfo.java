@@ -6,7 +6,6 @@ import java.io.Serializable;
  * @author zhufeng
  * @version 2016年9月14日
  */
-@SuppressWarnings("unused")
 public class UserInfo implements Serializable{
 
     private long id;

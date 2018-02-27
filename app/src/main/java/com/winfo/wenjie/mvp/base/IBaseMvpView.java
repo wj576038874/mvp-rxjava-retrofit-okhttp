@@ -1,14 +1,13 @@
 package com.winfo.wenjie.mvp.base;
 
 /**
- * ProjectName: SZRegulatoryServicePlatformApp
- * PackageNmae: com.winfo.szrsp.app.mvp
+ * ProjectName: MvpRxjavaRetrofitDemo
+ * PackageName com.winfo.wenjie.mvp.base
+ * FileName: com.winfo.wenjie.mvp.base.IBaseMvpView.java
  * Author: wenjie
- * FileName: com.winfo.szrsp.app.mvp.IBaseMvpView.java
- * Date: 2017/12/11 18:38
- * Description: mvp父接口，规定每个presenter的view类型
+ * Date: 2016-12-12 14:47
+ * Description: IBaseMvpView
  */
-
 public interface IBaseMvpView {
 
 }

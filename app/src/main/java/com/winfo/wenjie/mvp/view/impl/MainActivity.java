@@ -2,35 +2,28 @@ package com.winfo.wenjie.mvp.view.impl;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.winfo.wenjie.R;
 import com.winfo.wenjie.mvp.base.BaseMvpActivity;
-import com.winfo.wenjie.mvp.base.BaseMvpPresenter;
 import com.winfo.wenjie.mvp.presenter.LoginPresenter;
 import com.winfo.wenjie.mvp.view.ILoginView;
-import com.winfo.wenjie.request.ApiService;
-import com.winfo.wenjie.request.DialogSubscriber;
-import com.winfo.wenjie.request.OkHttpUtils;
-import com.winfo.wenjie.request.RequestParams;
-import com.winfo.wenjie.request.ResultData;
 import com.winfo.wenjie.utils.DialogUtils;
-import com.winfo.wenjie.utils.JsonUtil;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import okhttp3.RequestBody;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
+
+/**
+ * ProjectName: MvpRxjavaRetrofitDemo
+ * PackageName com.winfo.wenjie.mvp.view.impl
+ * FileName: com.winfo.wenjie.mvp.view.impl.MainActivity.java
+ * Author: wenjie
+ * Date: 2016-12-12 14:47
+ * Description: v层
+ */
 public class MainActivity extends BaseMvpActivity<ILoginView, LoginPresenter> implements ILoginView {
 
     @BindView(R.id.id_et_username)

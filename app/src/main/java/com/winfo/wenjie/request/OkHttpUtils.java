@@ -1,20 +1,18 @@
 package com.winfo.wenjie.request;
 
 import java.util.concurrent.TimeUnit;
-
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * @ProjectName: MvpRxjavaRetrofitDemo
- * @PackageName: com.winfo.wenjie.request
- * @FileName: com.winfo.wenjie.request.OkHttpUtils.java
- * @Author: wenjie
- * @Date: 2016-12-12 14:17
- * @Description: 网络请求的工具类
- * @Version:
+ * ProjectName: MvpRxjavaRetrofitDemo
+ * PackageName: com.winfo.wenjie.request
+ * FileName: com.winfo.wenjie.request.OkHttpUtils.java
+ * Author: wenjie
+ * Date: 2016-12-12 14:17
+ * Description: 网络请求的工具类
  */
 public class OkHttpUtils {
     /**

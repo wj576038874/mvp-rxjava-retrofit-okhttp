@@ -1,31 +1,24 @@
 package com.winfo.wenjie.mvp.model.impl;
 
 import android.app.Dialog;
-
 import com.winfo.wenjie.domain.UserInfo;
 import com.winfo.wenjie.mvp.model.ILoginModel;
 import com.winfo.wenjie.request.ApiService;
 import com.winfo.wenjie.request.DialogSubscriber;
 import com.winfo.wenjie.request.OkHttpUtils;
-import com.winfo.wenjie.request.RequestParams;
 import com.winfo.wenjie.request.ResponseResult;
-import com.winfo.wenjie.request.ResultData;
-import com.winfo.wenjie.utils.JsonUtil;
-
-import okhttp3.RequestBody;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * @ProjectName: MvpRxjavaRetrofitDemo
- * @PackageName com.winfo.wenjie.mvp.model
- * @FileName: com.winfo.wenjie.mvp.model.impl.LoginModel.java
- * @Author: wenjie
- * @Date: 2016-12-12 14:47
- * @Description: m层
- * @Version:
+ * ProjectName: MvpRxjavaRetrofitDemo
+ * PackageName com.winfo.wenjie.mvp.model
+ * FileName: com.winfo.wenjie.mvp.model.impl.LoginModel.java
+ * Author: wenjie
+ * Date: 2016-12-12 14:47
+ * Description: m层实现类
  */
 public class LoginModel implements ILoginModel {
 

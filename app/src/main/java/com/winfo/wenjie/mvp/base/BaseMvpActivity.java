@@ -1,19 +1,17 @@
 package com.winfo.wenjie.mvp.base;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 /**
- * ProjectName: SZRegulatoryServicePlatformApp
- * PackageNmae: com.winfo.szrsp.app.mvp.task
+ * ProjectName: MvpRxjavaRetrofitDemo
+ * PackageName com.winfo.wenjie.mvp.base
+ * FileName: com.winfo.wenjie.mvp.base.BaseMvpActivity.java
  * Author: wenjie
- * FileName: com.winfo.szrsp.app.mvp.BaseMvpActivity.java
- * Date: 2017/12/16 12:54
- * Description:
+ * Date: 2016-12-12 14:47
+ * Description: BaseMvpActivity
  */
-
 public abstract class BaseMvpActivity<V extends IBaseMvpView, P extends BaseMvpPresenter<V>> extends AppCompatActivity implements IBaseMvpView {
 
     protected P mPresenter;

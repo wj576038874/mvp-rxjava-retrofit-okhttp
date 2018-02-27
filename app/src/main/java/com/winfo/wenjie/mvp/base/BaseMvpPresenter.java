@@ -3,16 +3,18 @@ package com.winfo.wenjie.mvp.base;
 import java.lang.ref.WeakReference;
 
 /**
- * ProjectName: SZRegulatoryServicePlatformApp
- * PackageNmae: com.winfo.szrsp.app.mvp
+ * ProjectName: MvpRxjavaRetrofitDemo
+ * PackageName com.winfo.wenjie.mvp.base
+ * FileName: com.winfo.wenjie.mvp.base.BaseMvpPresenter.java
  * Author: wenjie
- * FileName: com.winfo.szrsp.app.mvp.BaseMvpPresenter.java
- * Date: 2017/12/11 18:39
- * Description:
+ * Date: 2016-12-12 14:47
+ * Description: BaseMvpPresenter
  */
-
 public class BaseMvpPresenter<V extends IBaseMvpView> {
 
+    /**
+     * v层泛型引用
+     */
     protected V mView;
 
     private WeakReference<V> weakReferenceView;

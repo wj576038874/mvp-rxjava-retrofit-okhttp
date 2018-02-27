@@ -5,19 +5,18 @@ import android.app.Dialog;
 import com.winfo.wenjie.mvp.base.IBaseMvpView;
 
 /**
- * @ProjectName: MvpRxjavaRetrofitDemo
- * @PackageName com.winfo.wenjie.mvp.view.impl
- * @FileName: com.winfo.wenjie.mvp.view.impl.ILoginView.java
- * @Author: wenjie
- * @Date: 2016-12-12 14:11
- * @Description: view层的接口 由view来实现也就是mainactivity来实现该接口
- * @Version:
+ * ProjectName: MvpRxjavaRetrofitDemo
+ * PackageName com.winfo.wenjie.mvp.view.impl
+ * FileName: com.winfo.wenjie.mvp.view.impl.ILoginView.java
+ * Author: wenjie
+ * Date: 2016-12-12 14:11
+ * Description: view层的接口 由view来实现也就是mainactivity来实现该接口
  */
 public interface ILoginView extends IBaseMvpView{
 
     /**
      * 获取view层的dialog
-     * @return
+     * @return retuen
      */
     Dialog getDialog();
 
@@ -35,13 +34,13 @@ public interface ILoginView extends IBaseMvpView{
 
     /**
      * 弹出消息
-     * @param msg
+     * @param msg msg
      */
     void showMsg(String msg);
 
     /**
      * 将数据返回给view
-     * @param result
+     * @param result resuklt
      */
     void setText(String result);
 }

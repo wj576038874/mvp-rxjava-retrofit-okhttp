@@ -4,17 +4,14 @@ import com.winfo.wenjie.domain.UserInfo;
 import com.winfo.wenjie.mvp.base.BaseMvpPresenter;
 import com.winfo.wenjie.mvp.model.impl.LoginModel;
 import com.winfo.wenjie.mvp.view.ILoginView;
-import com.winfo.wenjie.request.ResultData;
-import com.winfo.wenjie.utils.JsonUtil;
 
 /**
- * @ProjectName: MvpRxjavaRetrofitDemo
- * @PackageName com.winfo.wenjie.mvp.presenter
- * @FileName: com.winfo.wenjie.mvp.presenter.LoginPresenter.java
- * @Author: wenjie
- * @Date: 2016-12-12 14:12
- * @Description: p层
- * @Version:
+ * ProjectName: MvpRxjavaRetrofitDemo
+ * PackageName com.winfo.wenjie.mvp.presenter
+ * FileName: com.winfo.wenjie.mvp.presenter.LoginPresenter.java
+ * Author: wenjie
+ * Date: 2016-12-12 14:12
+ * Description: p层
  */
 public class LoginPresenter extends BaseMvpPresenter<ILoginView> {
 

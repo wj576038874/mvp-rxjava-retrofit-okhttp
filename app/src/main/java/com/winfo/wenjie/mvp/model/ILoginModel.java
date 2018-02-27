@@ -1,17 +1,15 @@
 package com.winfo.wenjie.mvp.model;
 
 import android.app.Dialog;
-
 import com.winfo.wenjie.mvp.model.impl.LoginModel;
 
 /**
- * @ProjectName: gdmsaecApp
- * @PackageName: com.winfo.gdmsaec.app.mvp.model.login
- * @FileName: com.winfo.gdmsaec.app.mvp.model.login.ILoginModel.java
- * @Author: wenjie
- * @Date: 2017-01-03 13:54
- * @Description:
- * @Version:
+ * ProjectName: MvpRxjavaRetrofitDemo
+ * PackageName: com.winfo.wenjie.mvp.model
+ * FileName: com.winfo.wenjie.mvp.model.ILoginModel.java
+ * Author: wenjie
+ * Date: 2017-01-03 13:54
+ * Description: m层接口
  */
 public interface ILoginModel {
 
