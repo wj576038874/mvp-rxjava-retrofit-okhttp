@@ -36,7 +36,7 @@ public class OkHttpUtils {
     public static Retrofit getRetrofit() {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
-                    .baseUrl("http://121.8.249.13:8081/gdmsaec-app/act/")
+                    .baseUrl("http://192.168.1.67/api/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(getOkHttpClient())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())

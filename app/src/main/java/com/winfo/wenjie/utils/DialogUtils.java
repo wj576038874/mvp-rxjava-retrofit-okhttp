@@ -2,13 +2,14 @@ package com.winfo.wenjie.utils;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.drawable.AnimationDrawable;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.winfo.wenjie.R;
 
 /**
@@ -48,7 +49,7 @@ public class DialogUtils {
         /*
          *  main.xml中的ImageView
          */
-        final ImageView imgViewLoading = (ImageView) v.findViewById(R.id.img);
+//        final ImageView imgViewLoading = (ImageView) v.findViewById(R.id.img);
 
 
         TextView tipTextView = (TextView) v.findViewById(R.id.tipTextView);// 提示文字
@@ -68,27 +69,30 @@ public class DialogUtils {
         Dialog loadingDialog = new Dialog(context, R.style.loading_dialog);// 创建自定义样式dialog
         loadingDialog.setCancelable(true);// 可以用“返回键”取消
         loadingDialog.setCanceledOnTouchOutside(false);//
-        loadingDialog.setContentView(layout, new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT));// 设置布局
+        loadingDialog.setContentView(v);// 设置布局
 
-        loadingDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+        DisplayMetrics dm = context.getResources().getDisplayMetrics();
+        int width = (int) (dm.widthPixels*0.3);
+        int height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        loadingDialog.getWindow().setLayout(width ,height);
 
-            @Override
-            public void onShow(DialogInterface dialog) {
-                animationDrawable = (AnimationDrawable) imgViewLoading.getDrawable();
-                animationDrawable.start();
-            }
-        });
-
-
-        loadingDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                animationDrawable = (AnimationDrawable) imgViewLoading.getDrawable();
-                animationDrawable.stop();
-            }
-        });
+//        loadingDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+//
+//            @Override
+//            public void onShow(DialogInterface dialog) {
+//                animationDrawable = (AnimationDrawable) imgViewLoading.getDrawable();
+//                animationDrawable.start();
+//            }
+//        });
+//
+//
+//        loadingDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+//            @Override
+//            public void onDismiss(DialogInterface dialog) {
+//                animationDrawable = (AnimationDrawable) imgViewLoading.getDrawable();
+//                animationDrawable.stop();
+//            }
+//        });
 
         return loadingDialog;
     }

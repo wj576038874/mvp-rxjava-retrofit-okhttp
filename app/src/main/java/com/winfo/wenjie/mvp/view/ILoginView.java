@@ -2,6 +2,8 @@ package com.winfo.wenjie.mvp.view;
 
 import android.app.Dialog;
 
+import com.winfo.wenjie.mvp.base.IBaseMvpView;
+
 /**
  * @ProjectName: MvpRxjavaRetrofitDemo
  * @PackageName com.winfo.wenjie.mvp.view.impl
@@ -11,7 +13,7 @@ import android.app.Dialog;
  * @Description: view层的接口 由view来实现也就是mainactivity来实现该接口
  * @Version:
  */
-public interface ILoginView {
+public interface ILoginView extends IBaseMvpView{
 
     /**
      * 获取view层的dialog

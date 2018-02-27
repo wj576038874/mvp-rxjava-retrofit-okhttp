@@ -23,4 +23,5 @@ public interface ILoginModel {
      * @param loginListener 监听函数
      */
     void login(Dialog dialog, String username, String password, LoginModel.OnLoginListener loginListener);
+
 }

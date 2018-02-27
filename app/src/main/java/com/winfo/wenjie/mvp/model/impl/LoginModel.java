@@ -7,8 +7,12 @@ import com.winfo.wenjie.mvp.model.ILoginModel;
 import com.winfo.wenjie.request.ApiService;
 import com.winfo.wenjie.request.DialogSubscriber;
 import com.winfo.wenjie.request.OkHttpUtils;
+import com.winfo.wenjie.request.RequestParams;
 import com.winfo.wenjie.request.ResponseResult;
+import com.winfo.wenjie.request.ResultData;
+import com.winfo.wenjie.utils.JsonUtil;
 
+import okhttp3.RequestBody;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -29,15 +33,15 @@ public class LoginModel implements ILoginModel {
     @Override
     public void login(Dialog dialog, String username, String password, final OnLoginListener loginListener) {
 
-        /**
+        /*
          * 被订阅者
          */
         Observable<ResponseResult<UserInfo>> observable = OkHttpUtils.getRetrofit().create(ApiService.class).login(username, password);
 
-        /**
+        /*
          * 订阅者
          */
-        Subscriber<ResponseResult<UserInfo>> subscriber = new DialogSubscriber<ResponseResult<UserInfo>>(dialog , false) {
+        Subscriber<ResponseResult<UserInfo>> subscriber = new DialogSubscriber<ResponseResult<UserInfo>>(dialog , true) {
             @Override
             public void onSuccess(ResponseResult<UserInfo> userInfoUserResponseResult) {
                 switch (userInfoUserResponseResult.getResult()) {
@@ -75,6 +79,19 @@ public class LoginModel implements ILoginModel {
          * @param userInfo  用户信息
          */
         void onSuccess(UserInfo userInfo);
+
+        /**
+         * 请求失败的回调方法
+         * @param msg   失败的信息
+         */
+        void onFailure(String msg);
+    }
+
+    public interface OnLoadListener{
+        /**
+         * 请求成功的回调方法
+         */
+        void onSuccess(ResultData resultData);
 
         /**
          * 请求失败的回调方法
