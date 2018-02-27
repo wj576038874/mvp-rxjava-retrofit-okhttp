@@ -36,11 +36,6 @@ public class MainActivity extends BaseMvpActivity<ILoginView, LoginPresenter> im
     Button btnLogin;
     private Dialog dialog;
 
-    /**
-     * p层对象 来调取p层的方法
-     */
-//    private LoginPresenter loginPresenter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
