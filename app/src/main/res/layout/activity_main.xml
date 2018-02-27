@@ -1,44 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_marginStart="10dp"
-    android:layout_marginEnd="10dp"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-
-    <EditText
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:inputType="number"
-        android:ems="11"
-        android:text="15012551396"
-        android:hint="请输入手机号码"
-        android:layout_marginTop="30dp"
-        android:id="@+id/id_et_username" />
+        android:background="@color/colorPrimary"
+        android:layout_height="wrap_content">
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:inputType="numberPassword"
-        android:hint="请输入密码"
-        android:text="123456aa"
-        android:ems="11"
-        android:layout_marginTop="30dp"
-        android:id="@+id/id_et_password" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="登录"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
+    </android.support.v7.widget.Toolbar>
 
-    <Button
-        android:layout_width="match_parent"
-        android:text="登录"
-        android:layout_marginTop="20dp"
-        android:id="@+id/id_btn_login"
-        android:layout_height="50dp" />
-
-    <TextView
-        android:id="@+id/textview"
+    <ImageView
         android:layout_width="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_height="wrap_content" />
+        android:layout_marginTop="30dp"
+        android:src="@mipmap/ic_launcher" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="20dp">
+
+            <EditText
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:layout_marginLeft="6dp"
+                android:background="@null"
+                android:hint="Email / 用户名"
+                android:text="wj576038874"
+                android:inputType="textEmailAddress|text"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/username"
+                android:layout_marginTop="2dp"
+                android:background="@color/colorPrimary" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="20dp">
+
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:layout_marginLeft="6dp"
+                android:background="@null"
+                android:hint="密码"
+                android:text="1rujiwang"
+                android:inputType="textPassword"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/password"
+                android:layout_marginTop="2dp"
+                android:background="@color/colorPrimary" />
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/login"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="30dp"
+            android:text="登录"
+            android:textColor="#333" />
+
+        <TextView
+            android:id="@+id/result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:padding="12dp" />
+    </LinearLayout>
 </LinearLayout>
