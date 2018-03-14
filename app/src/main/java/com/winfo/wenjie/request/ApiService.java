@@ -1,9 +1,17 @@
 package com.winfo.wenjie.request;
 
+import com.winfo.wenjie.domain.New;
 import com.winfo.wenjie.domain.Token;
+import com.winfo.wenjie.domain.Topic;
+import com.winfo.wenjie.domain.UserDetail;
+
+import java.util.List;
+
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -25,10 +33,25 @@ public interface ApiService {
      * @param password      密码
      * @return Token 实体类
      */
-    @POST("oauth/token")
+    @POST("https://www.diycode.cc/oauth/token")
     @FormUrlEncoded
     Observable<Token> getToken(
             @Field("client_id") String client_id, @Field("client_secret") String client_secret,
             @Field("grant_type") String grant_type, @Field("username") String username,
             @Field("password") String password);
+
+    /**
+     * 获取当前登录者的详细资料
+     *
+     * @return 用户详情
+     */
+    @GET("users/me.json")
+    Observable<UserDetail> getMe();
+
+
+    @GET("news.json")
+    Observable<List<New>> loadNewsList(@Query("limit") Integer limit);
+
+    @GET("topics.json")
+    Observable<List<Topic>> loadTopicList(@Query("limit") Integer limit);
 }

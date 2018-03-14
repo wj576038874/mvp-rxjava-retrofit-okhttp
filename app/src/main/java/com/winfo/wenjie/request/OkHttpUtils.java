@@ -1,7 +1,17 @@
 package com.winfo.wenjie.request;
 
+import android.support.annotation.NonNull;
+
+import com.winfo.wenjie.mvp.base.MyApplication;
+import com.winfo.wenjie.utils.CacheUtil;
+
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
+
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -20,7 +30,7 @@ public class OkHttpUtils {
      */
     private static OkHttpClient okHttpClient;
 
-
+    private static CacheUtil cacheUtil = new CacheUtil(MyApplication.getContext());
     /**
      * Retrofit
      */
@@ -34,7 +44,7 @@ public class OkHttpUtils {
     public static Retrofit getRetrofit() {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
-                    .baseUrl("https://www.diycode.cc/")
+                    .baseUrl("https://diycode.cc/api/v3/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(getOkHttpClient())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
@@ -43,13 +53,35 @@ public class OkHttpUtils {
         return retrofit;
     }
 
-
     private static OkHttpClient getOkHttpClient() {
         if (okHttpClient == null) {
             OkHttpClient.Builder builder = new OkHttpClient.Builder();
-            builder.connectTimeout(15, TimeUnit.SECONDS);
+            builder.addInterceptor(new Interceptor() {
+                @Override
+                public Response intercept(@NonNull Chain chain) throws IOException {
+                    Request original = chain.request();
+                    // 如果当前没有缓存 token 或者请求已经附带 token 了，就不再添加
+                    if (null == cacheUtil.getToken() || alreadyHasAuthorizationHeader(original)) {
+                        return chain.proceed(original);
+                    }
+                    String token = "Bearer " + cacheUtil.getToken().getAccess_token();
+                    Request request = original.newBuilder()
+                            .header("Authorization", token)
+                            .build();
+                    return chain.proceed(request);
+                }
+            });
+            builder.connectTimeout(15 * 1000, TimeUnit.SECONDS);
+            builder.readTimeout(15 * 1000, TimeUnit.MILLISECONDS);//超时时间
             okHttpClient = builder.build();
         }
         return okHttpClient;
+    }
+
+    private static boolean alreadyHasAuthorizationHeader(Request originalRequest) {
+        String token = originalRequest.header("Authorization");
+        // 如果本身是请求 token 的 URL，直接返回 true
+        // 如果不是，则判断 header 中是否已经添加过 Authorization 这个字段，以及是否为空
+        return !(null == token || token.isEmpty() || originalRequest.url().toString().contains("https://www.diycode.cc/oauth/token"));
     }
 }

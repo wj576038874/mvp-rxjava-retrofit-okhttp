@@ -31,6 +31,7 @@ public class DialogHandler extends Handler {
 
     /**
      * 构造方法接收一个加载框的对象  由各个view层创建之后传进来  因为每个对话框所提示的内容有所不同
+     *
      * @param dialog dialog
      */
     DialogHandler(Dialog dialog, DialogCancelListener dialogCancelListener) {
@@ -40,26 +41,32 @@ public class DialogHandler extends Handler {
     }
 
     private void initDialogDismissListenner() {
-        loadingDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                dialogCancelListener.onCancel();
-            }
-        });
+        if (loadingDialog != null) {
+            loadingDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    dialogCancelListener.onCancel();
+                }
+            });
+        }
     }
 
     /**
      * 显示加载框
      */
     private void showLodingDialog() {
-        loadingDialog.show();
+        if (loadingDialog != null) {
+            loadingDialog.show();
+        }
     }
 
     /**
      * 隐藏加载框
      */
     private void dismissLodingDialog() {
-        loadingDialog.dismiss();
+        if (loadingDialog != null) {
+            loadingDialog.dismiss();
+        }
     }
 
     @Override

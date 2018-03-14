@@ -1,16 +1,22 @@
 package com.winfo.wenjie.mvp.view.impl;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.winfo.wenjie.R;
+import com.winfo.wenjie.domain.UserDetail;
 import com.winfo.wenjie.mvp.base.BaseMvpActivity;
+import com.winfo.wenjie.mvp.model.TopicsAndNews;
 import com.winfo.wenjie.mvp.presenter.LoginPresenter;
 import com.winfo.wenjie.mvp.view.ILoginView;
 import com.winfo.wenjie.utils.DialogUtils;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -28,13 +34,32 @@ public class MainActivity extends BaseMvpActivity<ILoginView, LoginPresenter> im
 
     @BindView(R.id.username)
     EditText etUserName;
+
     @BindView(R.id.password)
     EditText etPassword;
+
     @BindView(R.id.result)
     TextView textView;
+
     @BindView(R.id.login)
     Button btnLogin;
+
     private Dialog dialog;
+
+    @BindView(R.id.getme)
+    Button btnGetMe;
+
+    @BindView(R.id.userdetail)
+    TextView tvUsetdetail;
+
+    @BindView(R.id.tv_hebing1)
+    TextView tvhebing1;
+
+    @BindView(R.id.tv_hebing2)
+    TextView tvhebing2;
+
+    @BindView(R.id.btn_hebing)
+    Button btnHebing;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +67,7 @@ public class MainActivity extends BaseMvpActivity<ILoginView, LoginPresenter> im
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        dialog = DialogUtils.createLoadingDialog(this, "登陆中...");
+        dialog = DialogUtils.createLoadingDialog(this, "请稍后...");
     }
 
     @Override
@@ -65,17 +90,48 @@ public class MainActivity extends BaseMvpActivity<ILoginView, LoginPresenter> im
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void setText(String result) {
-        textView.setText("登录成功！Token：\n"+result);
+        textView.setText("登录成功！Token：\n" + result);
     }
 
-    @OnClick(R.id.login)
-    public void onClick() {
-        /*
-         * 调用登录方法进行登陆
-         */
-        mPresenter.login();
+    @Override
+    public void setUserDetail(UserDetail userDetail) {
+        tvUsetdetail.setText(userDetail.toString());
+    }
+
+    @SuppressLint("SetTextI18n")
+    @Override
+    public void setBebingData(TopicsAndNews topicsAndNews) {
+        tvhebing1.setText("第一个请求" + topicsAndNews.getNews().get(0).toString());
+        tvhebing2.setText("第二个请求" + topicsAndNews.getTopics().get(0).toString());
+    }
+
+    @OnClick({R.id.login, R.id.getme, R.id.btn_hebing})
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+            case R.id.login:
+                 /*
+                  * 调用登录方法进行登陆
+                  */
+                mPresenter.login();
+                break;
+            case R.id.getme:
+                /*
+                嵌套请求
+                 */
+                mPresenter.getMe();
+                break;
+
+            case R.id.btn_hebing:
+                /*
+                合并请求
+                 */
+                mPresenter.bebing();
+                break;
+        }
     }
 
     @Override

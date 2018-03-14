@@ -19,8 +19,8 @@ public interface OnLoadDatasListener<T> {
 
     /**
      * 失败
-     * @param eroor 错误信息
+     * @param error 错误信息
      */
-    void onFailure(String eroor);
+    void onFailure(String error);
 
 }

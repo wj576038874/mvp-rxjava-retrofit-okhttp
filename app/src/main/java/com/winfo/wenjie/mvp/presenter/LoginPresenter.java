@@ -3,8 +3,10 @@ package com.winfo.wenjie.mvp.presenter;
 import android.text.TextUtils;
 
 import com.winfo.wenjie.domain.Token;
+import com.winfo.wenjie.domain.UserDetail;
 import com.winfo.wenjie.mvp.base.BaseMvpPresenter;
 import com.winfo.wenjie.mvp.model.OnLoadDatasListener;
+import com.winfo.wenjie.mvp.model.TopicsAndNews;
 import com.winfo.wenjie.mvp.model.impl.LoginModel;
 import com.winfo.wenjie.mvp.view.ILoginView;
 
@@ -32,6 +34,7 @@ public class LoginPresenter extends BaseMvpPresenter<ILoginView> {
          */
         this.loginModel = new LoginModel();
     }
+
     /**
      * 登陆
      */
@@ -49,9 +52,43 @@ public class LoginPresenter extends BaseMvpPresenter<ILoginView> {
             }
 
             @Override
-            public void onFailure(String eroor) {
+            public void onFailure(String error) {
                 //请求成功服务器返回的错误信息
-                mView.showMsg(eroor);
+                mView.showMsg(error);
+            }
+        });
+    }
+
+
+    /**
+     * 获取用户信息
+     */
+    public void getMe() {
+        if (mView == null) return;
+        loginModel.getMe(mView.getDialog() , new OnLoadDatasListener<UserDetail>() {
+            @Override
+            public void onSuccess(UserDetail userDetail) {
+                mView.setUserDetail(userDetail);
+            }
+
+            @Override
+            public void onFailure(String error) {
+                mView.showMsg(error);
+            }
+        });
+    }
+
+    public void bebing(){
+        if (mView== null) return;
+        loginModel.bebing(mView.getDialog(), new OnLoadDatasListener<TopicsAndNews>() {
+            @Override
+            public void onSuccess(TopicsAndNews topicsAndNews) {
+                mView.setBebingData(topicsAndNews);
+            }
+
+            @Override
+            public void onFailure(String error) {
+                mView.showMsg(error);
             }
         });
     }

@@ -33,27 +33,9 @@ public abstract class DialogSubscriber<T> extends Subscriber<T> implements Dialo
 
     private DialogHandler dialogHandler;
 
-    /**
-     *
-     * @param dialog 对话框
-     * @param isShowDialog 是否显示加载的对话框
-     *                     这里的dialog要特别说明一下，把它当做DialogHandler构造参数传递进去，来进行具体的对话框的操作
-     *                     其实是可以直接将context作为构造参数传递进去，在DialogHandler中通过context对象来创建dialog对象
-     *                     因为感觉传递context对象不是很好，而且dialog加载框的提示语也会根据请求的不同而不同比如：
-     *                     1、登陆请求 对话框需要是  登陆中...
-     *                     2、加载数据  对话框需要时  数据加载中...
-     *                     3、等等
-     *                     所以我们直接将dialog的创建放在m层，作为参数传递进来，这样就可以适应很多请求
-     *                     或许会有人觉得这事强迫症，可以直接  加载中...代替所有的啊，这样不是也可以吗？
-     *                     的确可以但是，这样的话，需要传递context对象到这里了。为了避免传递context对象
-     *                     所以选择这样的方式，也会有人说dialog携带了context引用啊。传conxtexthedialog都一样，
-     *                     这里我就不处理了，你们自己想办法解决
-     *                     isShowDialog这个就比较简单，请求时控制dialog是否显示，不是所有的请求都需要加载框比如下拉刷新
-     *                     这些就不需要，所以这里灵活一点，自己根据具体的请求传递对应的值
-     */
-    protected DialogSubscriber(Dialog dialog, boolean isShowDialog) {
-        this.isShowDialog = isShowDialog;
-        dialogHandler = new DialogHandler(dialog , this);
+    protected DialogSubscriber(Dialog dialog) {
+        isShowDialog = dialog != null;
+        dialogHandler = new DialogHandler(dialog, this);
     }
 
     /**
