@@ -1,7 +1,5 @@
 package com.winfo.wenjie.mvp.model.impl;
 
-import android.app.Dialog;
-
 import com.winfo.wenjie.domain.New;
 import com.winfo.wenjie.domain.Token;
 import com.winfo.wenjie.domain.Topic;
@@ -11,18 +9,17 @@ import com.winfo.wenjie.mvp.model.ILoginModel;
 import com.winfo.wenjie.mvp.model.OnLoadDatasListener;
 import com.winfo.wenjie.mvp.model.TopicsAndNews;
 import com.winfo.wenjie.request.ApiService;
-import com.winfo.wenjie.request.DialogSubscriber;
 import com.winfo.wenjie.request.OkHttpUtils;
+import com.winfo.wenjie.request.RequestSubscriber;
 import com.winfo.wenjie.utils.CacheUtil;
-
 import java.util.List;
-
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
-import rx.functions.Func2;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.BiFunction;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * ProjectName: MvpRxjavaRetrofitDemo
@@ -35,7 +32,7 @@ import rx.schedulers.Schedulers;
 public class LoginModel implements ILoginModel {
 
     @Override
-    public void login(Dialog dialog, String client_id, String client_secret, String grant_type, String username, String password, final OnLoadDatasListener<Token> onLoadDatasListener) {
+    public void login(String client_id, String client_secret, String grant_type, String username, String password, final OnLoadDatasListener<Token> onLoadDatasListener) {
          /*
          * 被订阅者
          */
@@ -43,7 +40,7 @@ public class LoginModel implements ILoginModel {
         /*
          * 订阅者
          */
-        Subscriber<Token> subscriber = new DialogSubscriber<Token>(dialog) {
+        Observer<Token> subscriber = new RequestSubscriber<Token>() {
             @Override
             protected void onSuccess(Token token) {
                 onLoadDatasListener.onSuccess(token);
@@ -61,30 +58,29 @@ public class LoginModel implements ILoginModel {
     }
 
     @Override
-    public void getMe(Dialog dialog, final OnLoadDatasListener<UserDetail> onLoadDatasListener) {
+    public void getMe(final OnLoadDatasListener<UserDetail> onLoadDatasListener) {
         /*
         先通过用户名和密码获取到token  再继续用token作为参数，去请求用户信息，这样就达到了嵌套请求
         第一个请求的返回数据，作为第二个请求的参数
          */
         Observable<UserDetail> observable = OkHttpUtils.getRetrofit().create(ApiService.class).getToken("", "", "password", "wj576038874", "1rujiwang")
-                .flatMap(new Func1<Token, Observable<UserDetail>>() {
+                .flatMap(new Function<Token, ObservableSource<UserDetail>>() {
                     @Override
-                    public Observable<UserDetail> call(Token token) {
+                    public Observable<UserDetail> apply(Token token) throws Exception{
                         //第一个“登录请求”完成之后 会返回token信息，我们把token保存在本地，以便于第二个“获取用户信息”的请求可以从
                         //本地获取到token作为请求所需要的参数
                         CacheUtil cacheUtil = new CacheUtil(MyApplication.getContext());
                         cacheUtil.saveToken(token);
                         return OkHttpUtils.getRetrofit().create(ApiService.class).getMe();
                     }
-                }).map(new Func1<UserDetail, UserDetail>() {
+                }).map(new Function<UserDetail, UserDetail>() {
                     @Override
-                    public UserDetail call(UserDetail userDetail) {
-                        //第二个请求完成之后将获取到的用户信息返回
+                    public UserDetail apply(UserDetail userDetail) throws Exception {
                         return userDetail;
                     }
                 });
 
-        Subscriber<UserDetail> subscriber = new DialogSubscriber<UserDetail>(dialog) {
+        Observer<UserDetail> subscriber = new RequestSubscriber<UserDetail>() {
             @Override
             protected void onSuccess(UserDetail userDetail) {
                 onLoadDatasListener.onSuccess(userDetail);
@@ -102,13 +98,14 @@ public class LoginModel implements ILoginModel {
     }
 
     @Override
-    public void bebing(Dialog dialog, final OnLoadDatasListener<TopicsAndNews> onLoadDatasListener) {
+    public void bebing(final OnLoadDatasListener<TopicsAndNews> onLoadDatasListener) {
         Observable<List<Topic>> observable1 = OkHttpUtils.getRetrofit().create(ApiService.class).loadTopicList(1);
         Observable<List<New>> observable2 = OkHttpUtils.getRetrofit().create(ApiService.class).loadNewsList(1);
 
-        Observable<TopicsAndNews> observable = Observable.zip(observable1, observable2, new Func2<List<Topic>, List<New>, TopicsAndNews>() {
+        Observable<TopicsAndNews> observable = Observable.zip(observable1, observable2, new BiFunction<List<Topic>, List<New>, TopicsAndNews>() {
+
             @Override
-            public TopicsAndNews call(List<Topic> topics, List<New> news) {
+            public TopicsAndNews apply(List<Topic> topics, List<New> news) throws Exception {
                 TopicsAndNews topicsAndNews = new TopicsAndNews();
                 topicsAndNews.setNews(news);
                 topicsAndNews.setTopics(topics);
@@ -116,7 +113,7 @@ public class LoginModel implements ILoginModel {
             }
         });
 
-        Subscriber<TopicsAndNews> subscriber = new DialogSubscriber<TopicsAndNews>(dialog) {
+        Observer<TopicsAndNews> subscriber = new RequestSubscriber<TopicsAndNews>() {
             @Override
             protected void onSuccess(TopicsAndNews topicsAndNews) {
                 onLoadDatasListener.onSuccess(topicsAndNews);
@@ -133,4 +130,5 @@ public class LoginModel implements ILoginModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
     }
+
 }

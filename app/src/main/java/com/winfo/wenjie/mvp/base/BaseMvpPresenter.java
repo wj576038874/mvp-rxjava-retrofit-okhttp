@@ -19,6 +19,7 @@ public class BaseMvpPresenter<V extends IBaseMvpView> {
 
     private WeakReference<V> weakReferenceView;
 
+
     public void attachMvpView(V view) {
         weakReferenceView = new WeakReference<>(view);
         this.mView = weakReferenceView.get();

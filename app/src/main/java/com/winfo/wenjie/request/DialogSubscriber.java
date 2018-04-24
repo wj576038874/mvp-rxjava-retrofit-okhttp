@@ -4,7 +4,8 @@ import android.app.Dialog;
 import android.text.TextUtils;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
-import rx.Subscriber;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 /**
  * ProjectName: MvpRxjavaRetrofitDemo
@@ -14,7 +15,7 @@ import rx.Subscriber;
  * Date: 2016-12-12 14:23
  * Description: 订阅者
  */
-public abstract class DialogSubscriber<T> extends Subscriber<T> implements DialogCancelListener {
+public abstract class DialogSubscriber<T> implements Observer<T>, DialogCancelListener {
 
     private boolean isShowDialog;
     /**
@@ -61,21 +62,34 @@ public abstract class DialogSubscriber<T> extends Subscriber<T> implements Dialo
      * 请求开始
      * 先判断isShowDialog的值，如果为false就不显示对话框，为true才显示
      */
+//    @Override
+//    public void onStart() {
+//        if(isShowDialog){
+//            showProgressDialog();
+//        }
+//    }
+
     @Override
-    public void onStart() {
-        if(isShowDialog){
-            showProgressDialog();
-        }
+    public void onSubscribe(Disposable d) {
+
     }
+
+
+    //    /**
+//     * 请求完成，隐藏对话框
+//     */
+//    @Override
+//    public void onCompleted() {
+//        dismissProgressDialog();
+//    }
 
     /**
-     * 请求完成，隐藏对话框
+      * 请求完成，隐藏对话框
      */
     @Override
-    public void onCompleted() {
+    public void onComplete() {
         dismissProgressDialog();
     }
-
 
     /**
      * 请求出错
@@ -122,8 +136,8 @@ public abstract class DialogSubscriber<T> extends Subscriber<T> implements Dialo
         /*
          * 如果订阅者和被订阅者 没有取消订阅 则取消订阅 以取消网络请求
          */
-        if (!this.isUnsubscribed()) {
-            this.unsubscribe();
-        }
+//        if (!this.isUnsubscribed()) {
+//            this.unsubscribe();
+//        }
     }
 }

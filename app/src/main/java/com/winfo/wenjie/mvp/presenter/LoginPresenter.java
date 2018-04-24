@@ -1,7 +1,6 @@
 package com.winfo.wenjie.mvp.presenter;
 
 import android.text.TextUtils;
-
 import com.winfo.wenjie.domain.Token;
 import com.winfo.wenjie.domain.UserDetail;
 import com.winfo.wenjie.mvp.base.BaseMvpPresenter;
@@ -44,15 +43,20 @@ public class LoginPresenter extends BaseMvpPresenter<ILoginView> {
             mView.showMsg("用户名或密码不能为空");
             return;
         }
-        loginModel.login(mView.getDialog(), "", "", "password", mView.getUserName(), mView.getPassword(), new OnLoadDatasListener<Token>() {
+        mView.getDialog().show();
+        loginModel.login("", "", "password", mView.getUserName(), mView.getPassword(), new OnLoadDatasListener<Token>() {
             @Override
             public void onSuccess(Token token) {
+                if (mView == null) return;
+                mView.getDialog().dismiss();
                 //请求成功服务器返回的数据s
                 mView.setText(token.getAccess_token());
             }
 
             @Override
             public void onFailure(String error) {
+                if (mView == null) return;
+                mView.getDialog().dismiss();
                 //请求成功服务器返回的错误信息
                 mView.showMsg(error);
             }
@@ -65,14 +69,19 @@ public class LoginPresenter extends BaseMvpPresenter<ILoginView> {
      */
     public void getMe() {
         if (mView == null) return;
-        loginModel.getMe(mView.getDialog() , new OnLoadDatasListener<UserDetail>() {
+        mView.getDialog().show();
+        loginModel.getMe( new OnLoadDatasListener<UserDetail>() {
             @Override
             public void onSuccess(UserDetail userDetail) {
+                if (mView== null) return;
+                mView.getDialog().show();
                 mView.setUserDetail(userDetail);
             }
 
             @Override
             public void onFailure(String error) {
+                if (mView== null) return;
+                mView.getDialog().show();
                 mView.showMsg(error);
             }
         });
@@ -80,14 +89,19 @@ public class LoginPresenter extends BaseMvpPresenter<ILoginView> {
 
     public void bebing(){
         if (mView== null) return;
-        loginModel.bebing(mView.getDialog(), new OnLoadDatasListener<TopicsAndNews>() {
+        mView.getDialog().show();
+        loginModel.bebing( new OnLoadDatasListener<TopicsAndNews>() {
             @Override
             public void onSuccess(TopicsAndNews topicsAndNews) {
+                if (mView== null) return;
+                mView.getDialog().dismiss();
                 mView.setBebingData(topicsAndNews);
             }
 
             @Override
             public void onFailure(String error) {
+                if (mView== null) return;
+                mView.getDialog().dismiss();
                 mView.showMsg(error);
             }
         });

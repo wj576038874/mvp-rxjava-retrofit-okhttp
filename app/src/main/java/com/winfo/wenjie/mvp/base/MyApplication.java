@@ -1,7 +1,10 @@
 package com.winfo.wenjie.mvp.base;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
+import com.squareup.leakcanary.LeakCanary;
+
 
 /**
  * ProjectName: MvpRxjavaRetrofitDemo
@@ -12,11 +15,13 @@ import android.content.Context;
  * Description:
  */
 public class MyApplication extends Application {
+    @SuppressLint("StaticFieldLeak")
     private static Context context;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        LeakCanary.install(this);
         context = getApplicationContext();
     }
 

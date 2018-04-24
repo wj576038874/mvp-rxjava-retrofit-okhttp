@@ -2,7 +2,8 @@ package com.winfo.wenjie.mvp.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import com.trello.rxlifecycle2.components.RxActivity;
+
 
 /**
  * ProjectName: MvpRxjavaRetrofitDemo
@@ -12,7 +13,7 @@ import android.support.v7.app.AppCompatActivity;
  * Date: 2016-12-12 14:47
  * Description: BaseMvpActivity
  */
-public abstract class BaseMvpActivity<V extends IBaseMvpView, P extends BaseMvpPresenter<V>> extends AppCompatActivity implements IBaseMvpView {
+public abstract class BaseMvpActivity<V extends IBaseMvpView, P extends BaseMvpPresenter<V>> extends RxActivity implements IBaseMvpView {
 
     protected P mPresenter;
 
@@ -34,5 +35,15 @@ public abstract class BaseMvpActivity<V extends IBaseMvpView, P extends BaseMvpP
         if (mPresenter != null) {
             mPresenter.detachMvpView();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 }

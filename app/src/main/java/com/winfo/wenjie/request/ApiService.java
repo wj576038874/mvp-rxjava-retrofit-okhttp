@@ -7,12 +7,13 @@ import com.winfo.wenjie.domain.UserDetail;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
+import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
-import rx.Observable;
 
 /**
  * ProjectName: MvpRxjavaRetrofitDemo
@@ -54,4 +55,5 @@ public interface ApiService {
 
     @GET("topics.json")
     Observable<List<Topic>> loadTopicList(@Query("limit") Integer limit);
+
 }

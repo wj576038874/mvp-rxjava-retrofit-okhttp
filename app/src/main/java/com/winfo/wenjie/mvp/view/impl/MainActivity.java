@@ -2,24 +2,27 @@ package com.winfo.wenjie.mvp.view.impl;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.winfo.wenjie.R;
+import com.winfo.wenjie.domain.Topic;
 import com.winfo.wenjie.domain.UserDetail;
 import com.winfo.wenjie.mvp.base.BaseMvpActivity;
 import com.winfo.wenjie.mvp.model.TopicsAndNews;
 import com.winfo.wenjie.mvp.presenter.LoginPresenter;
 import com.winfo.wenjie.mvp.view.ILoginView;
 import com.winfo.wenjie.utils.DialogUtils;
-
+import com.winfo.wenjie.utils.RxBus;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 
 /**
@@ -61,6 +64,11 @@ public class MainActivity extends BaseMvpActivity<ILoginView, LoginPresenter> im
     @BindView(R.id.btn_hebing)
     Button btnHebing;
 
+    @BindView(R.id.id_textview)
+    TextView id_textview;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +76,33 @@ public class MainActivity extends BaseMvpActivity<ILoginView, LoginPresenter> im
         ButterKnife.bind(this);
 
         dialog = DialogUtils.createLoadingDialog(this, "请稍后...");
+
+
+        RxBus.getInstance().toObservable(Topic.class)
+                .subscribe(new Observer<Topic>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(Topic s) {
+                        etUserName.setText(s.getTitle());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
+
+
     }
 
     @Override
@@ -116,13 +151,15 @@ public class MainActivity extends BaseMvpActivity<ILoginView, LoginPresenter> im
                  /*
                   * 调用登录方法进行登陆
                   */
-                mPresenter.login();
+//                mPresenter.login();
+                startActivity(new Intent(this , Main2Activity.class));
                 break;
             case R.id.getme:
                 /*
                 嵌套请求
                  */
                 mPresenter.getMe();
+//                "123".substring(10);
                 break;
 
             case R.id.btn_hebing:
