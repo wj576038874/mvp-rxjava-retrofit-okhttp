@@ -31,7 +31,7 @@ public interface ILoginModel {
      *
      * @param onLoadDatasListener 监听
      */
-    void getMe(OnLoadDatasListener<UserDetail> onLoadDatasListener);
+    void getMe(String client_id, String client_secret, String grant_type, String username, String password,OnLoadDatasListener<UserDetail> onLoadDatasListener);
 
     /**
      * 合并请求
