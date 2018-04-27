@@ -8,6 +8,7 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.processors.FlowableProcessor;
 import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.Subject;
 
@@ -20,13 +21,14 @@ import io.reactivex.subjects.Subject;
  * Description:
  */
 public class RxBus {
+
     private volatile static RxBus mDefaultInstance;
     private final Subject<Object> mBus;
 
     private final Map<Class<?>, Object> mStickyEventMap;
 
 
-    public RxBus() {
+    private RxBus() {
         mBus = PublishSubject.create().toSerialized();
         mStickyEventMap = new ConcurrentHashMap<>();
     }
