@@ -15,6 +15,7 @@ import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.Response;
 
 /**
  * ProjectName: MvpRxjavaRetrofitDemo
@@ -28,12 +29,16 @@ public class TopicModelImpl implements TopicModel {
 
     @Override
     public void loadTopicList(LifecycleProvider<ActivityEvent> lifecycle ,final OnLoadDatasListener<List<Topic>> onLoadDatasListener) {
-        Observable<List<Topic>> observable = OkHttpUtils.getRetrofit().create(ApiService.class).loadTopicList(10);
+        Observable<Response<List<Topic>>> observable = OkHttpUtils.getRetrofit().create(ApiService.class).loadTopicList(10);
 
-        Observer<List<Topic>> observer = new RequestSubscriber<List<Topic>>() {
+        Observer<Response<List<Topic>>> observer = new RequestSubscriber<Response<List<Topic>>>() {
             @Override
-            protected void onSuccess(List<Topic> topics) {
-                onLoadDatasListener.onSuccess(topics);
+            protected void onSuccess(Response<List<Topic>> topics) {
+                if (topics.isSuccessful()){
+                    onLoadDatasListener.onSuccess(topics.body());
+                }else{
+                    onLoadDatasListener.onFailure("查询失败");
+                }
             }
 
             @Override
@@ -44,7 +49,7 @@ public class TopicModelImpl implements TopicModel {
 
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .compose(lifecycle.<List<Topic>>bindUntilEvent(ActivityEvent.DESTROY))
+                .compose(lifecycle.<Response<List<Topic>>>bindUntilEvent(ActivityEvent.DESTROY))
                 .subscribe(observer);
     }
 }
