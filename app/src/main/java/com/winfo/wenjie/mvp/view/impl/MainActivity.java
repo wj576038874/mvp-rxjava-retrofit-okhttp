@@ -151,8 +151,8 @@ public class MainActivity extends BaseMvpActivity<ILoginView, LoginPresenter> im
                  /*
                   * 调用登录方法进行登陆
                   */
-//                mPresenter.login();
-                startActivity(new Intent(this , Main2Activity.class));
+                mPresenter.login();
+//                startActivity(new Intent(this , Main2Activity.class));
                 break;
             case R.id.getme:
                 /*
