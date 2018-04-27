@@ -9,6 +9,7 @@ import java.util.List;
 
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
+import retrofit2.Response;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -36,10 +37,12 @@ public interface ApiService {
      */
     @POST("https://www.diycode.cc/oauth/token")
     @FormUrlEncoded
-    Observable<Token> getToken(
+    Observable<Response<Token>> getToken(
             @Field("client_id") String client_id, @Field("client_secret") String client_secret,
             @Field("grant_type") String grant_type, @Field("username") String username,
             @Field("password") String password);
+
+
 
     /**
      * 获取当前登录者的详细资料
@@ -47,13 +50,13 @@ public interface ApiService {
      * @return 用户详情
      */
     @GET("users/me.json")
-    Observable<UserDetail> getMe();
+    Observable<Response<UserDetail>> getMe();
 
 
     @GET("news.json")
-    Observable<List<New>> loadNewsList(@Query("limit") Integer limit);
+    Observable<Response<List<New>>> loadNewsList(@Query("limit") Integer limit);
 
     @GET("topics.json")
-    Observable<List<Topic>> loadTopicList(@Query("limit") Integer limit);
+    Observable<Response<List<Topic>>> loadTopicList(@Query("limit") Integer limit);
 
 }
