@@ -1,6 +1,7 @@
 package com.winfo.wenjie.mvp.presenter;
 
 import android.text.TextUtils;
+
 import com.winfo.wenjie.domain.Token;
 import com.winfo.wenjie.domain.UserDetail;
 import com.winfo.wenjie.mvp.base.BaseMvpPresenter;
@@ -70,37 +71,37 @@ public class LoginPresenter extends BaseMvpPresenter<ILoginView> {
     public void getMe() {
         if (mView == null) return;
         mView.getDialog().show();
-        loginModel.getMe( new OnLoadDatasListener<UserDetail>() {
+        loginModel.getMe("", "", "password", mView.getUserName(), mView.getPassword(), new OnLoadDatasListener<UserDetail>() {
             @Override
             public void onSuccess(UserDetail userDetail) {
-                if (mView== null) return;
-                mView.getDialog().show();
+                if (mView == null) return;
+                mView.getDialog().dismiss();
                 mView.setUserDetail(userDetail);
             }
 
             @Override
             public void onFailure(String error) {
-                if (mView== null) return;
-                mView.getDialog().show();
+                if (mView == null) return;
+                mView.getDialog().dismiss();
                 mView.showMsg(error);
             }
         });
     }
 
-    public void bebing(){
-        if (mView== null) return;
+    public void bebing() {
+        if (mView == null) return;
         mView.getDialog().show();
-        loginModel.bebing( new OnLoadDatasListener<TopicsAndNews>() {
+        loginModel.bebing(new OnLoadDatasListener<TopicsAndNews>() {
             @Override
             public void onSuccess(TopicsAndNews topicsAndNews) {
-                if (mView== null) return;
+                if (mView == null) return;
                 mView.getDialog().dismiss();
                 mView.setBebingData(topicsAndNews);
             }
 
             @Override
             public void onFailure(String error) {
-                if (mView== null) return;
+                if (mView == null) return;
                 mView.getDialog().dismiss();
                 mView.showMsg(error);
             }
