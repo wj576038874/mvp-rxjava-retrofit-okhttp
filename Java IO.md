@@ -67,10 +67,10 @@ while((bytes = in.read(buf, 0 , buf.length)) != -1) {
 InputStreamReader 实现从文本文件的字节流解码成字符流；OutputStreamWriter 实现字符流编码成为文本文件的字节流。它们继承自 Reader 和 Writer。
 
 编码就是把字符转换为字节，而解码是把字节重新组合成字符。
-    
-    byte[] bytes = str.getBytes(encoding);     // 编码
-    String str = new String(bytes, encoding)； // 解码
-
+ <pre><code>
+byte[] bytes = str.getBytes(encoding);     // 编码
+String str = new String(bytes, encoding)； // 解码
+</pre></code>
 GBK 编码中，中文占 2 个字节，英文占 1 个字节；UTF-8 编码中，中文占 3 个字节，英文占 1 个字节；Java 使用双字节编码 UTF-16be，中文和英文都占 2 个字节。
 
 如果编码和解码过程使用不同的编码方式那么就出现了乱码。
