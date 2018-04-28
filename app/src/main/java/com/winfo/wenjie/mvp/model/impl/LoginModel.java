@@ -75,32 +75,52 @@ public class LoginModel implements ILoginModel {
         先通过用户名和密码获取到token  再继续用token作为参数，去请求用户信息，这样就达到了嵌套请求
         第一个请求的返回数据，作为第二个请求的参数
          */
-        Observable<Response<UserDetail>> observable = OkHttpUtils.getRetrofit().create(ApiService.class).getToken(client_id, client_secret, grant_type, username, password)
-                .flatMap(new Function<Response<Token>, ObservableSource<Response<UserDetail>>>() {
-                    @Override
-                    public ObservableSource<Response<UserDetail>> apply(Response<Token> response) throws Exception {
-                        //第一个“登录请求”完成之后 会返回token信息，我们把token保存在本地，以便于第二个“获取用户信息”的请求可以从
-                        //本地获取到token作为请求所需要的参数
-                        if (response.isSuccessful()) {
-                            CacheUtil cacheUtil = new CacheUtil(MyApplication.getContext());
-                            Token token = response.body();
-                            assert token != null;
-                            cacheUtil.saveToken(token);
-                            return OkHttpUtils.getRetrofit().create(ApiService.class).getMe();
-                        }
-                        //如果用户登录出错，没有获取到token的话，那么我们就把用户登录的请求返回的response
-                        //封装到 Response<UserDetail> 然后发射出去，进行code的值判断显示错误信息
-                        ResponseBody responseBody = response.errorBody();
-                        assert responseBody != null;
-                        Response<UserDetail> userDetailResponse = Response.error(response.code(), responseBody);
-                        return Observable.just(userDetailResponse);
+//        Observable<Response<UserDetail>> observable = OkHttpUtils.getRetrofit().create(ApiService.class).getToken(client_id, client_secret, grant_type, username, password)
+//                .flatMap(new Function<Response<Token>, ObservableSource<Response<UserDetail>>>() {
+//                    @Override
+//                    public ObservableSource<Response<UserDetail>> apply(Response<Token> response) throws Exception {
+//                        //第一个“登录请求”完成之后 会返回token信息，我们把token保存在本地，以便于第二个“获取用户信息”的请求可以从
+//                        //本地获取到token作为请求所需要的参数
+//                        if (response.isSuccessful()) {
+//                            CacheUtil cacheUtil = new CacheUtil(MyApplication.getContext());
+//                            Token token = response.body();
+//                            assert token != null;
+//                            cacheUtil.saveToken(token);
+//                            return OkHttpUtils.getRetrofit().create(ApiService.class).getMe();
+//                        }
+//                        //如果用户登录出错，没有获取到token的话，那么我们就把用户登录的请求返回的response
+//                        //封装到 Response<UserDetail> 然后发射出去，进行code的值判断显示错误信息
+//                        ResponseBody responseBody = response.errorBody();
+//                        assert responseBody != null;
+//                        Response<UserDetail> userDetailResponse = Response.error(response.code(), responseBody);
+//                        return Observable.just(userDetailResponse);
+//                    }
+//                }).map(new Function<Response<UserDetail>, Response<UserDetail>>() {
+//                    @Override
+//                    public Response<UserDetail> apply(Response<UserDetail> userDetailResponse) throws Exception {
+//                        return userDetailResponse;
+//                    }
+//                });
+
+        Observable<Response<UserDetail>> observableLambda = OkHttpUtils.getRetrofit().create(ApiService.class).getToken(client_id, client_secret, grant_type, username, password)
+                .flatMap(response -> {
+                    //第一个“登录请求”完成之后 会返回token信息，我们把token保存在本地，以便于第二个“获取用户信息”的请求可以从
+                    //本地获取到token作为请求所需要的参数
+                    if (response.isSuccessful()) {
+                        CacheUtil cacheUtil = new CacheUtil(MyApplication.getContext());
+                        Token token = response.body();
+                        assert token != null;
+                        cacheUtil.saveToken(token);
+                        return OkHttpUtils.getRetrofit().create(ApiService.class).getMe();
                     }
-                }).map(new Function<Response<UserDetail>, Response<UserDetail>>() {
-                    @Override
-                    public Response<UserDetail> apply(Response<UserDetail> userDetailResponse) throws Exception {
-                        return userDetailResponse;
-                    }
+                    //如果用户登录出错，没有获取到token的话，那么我们就把用户登录的请求返回的response
+                    //封装到 Response<UserDetail> 然后发射出去，进行code的值判断显示错误信息
+                    ResponseBody responseBody = response.errorBody();
+                    assert responseBody != null;
+                    Response<UserDetail> userDetailResponse = Response.error(response.code(), responseBody);
+                    return Observable.just(userDetailResponse);
                 });
+
 
         Observer<Response<UserDetail>> subscriber = new RequestSubscriber<Response<UserDetail>>() {
             @Override
@@ -119,7 +139,7 @@ public class LoginModel implements ILoginModel {
                 onLoadDatasListener.onFailure(msg);
             }
         };
-        observable.subscribeOn(Schedulers.io())
+        observableLambda.subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
@@ -130,19 +150,30 @@ public class LoginModel implements ILoginModel {
         Observable<Response<List<Topic>>> observable1 = OkHttpUtils.getRetrofit().create(ApiService.class).loadTopicList(1);
         Observable<Response<List<New>>> observable2 = OkHttpUtils.getRetrofit().create(ApiService.class).loadNewsList(1);
 
-        Observable<TopicsAndNews> observable = Observable.zip(observable1, observable2, new BiFunction<Response<List<Topic>>, Response<List<New>>, TopicsAndNews>() {
+//        Observable<TopicsAndNews> observable = Observable.zip(observable1, observable2, new BiFunction<Response<List<Topic>>, Response<List<New>>, TopicsAndNews>() {
+//
+//            @Override
+//            public TopicsAndNews apply(Response<List<Topic>> topicsResponse, Response<List<New>> newsResponse) throws Exception {
+//                TopicsAndNews topicsAndNews = new TopicsAndNews();
+//                if (newsResponse.isSuccessful()) {
+//                    topicsAndNews.setNews(newsResponse.body());
+//                }
+//                if (topicsResponse.isSuccessful()) {
+//                    topicsAndNews.setTopics(topicsResponse.body());
+//                }
+//                return topicsAndNews;
+//            }
+//        });
 
-            @Override
-            public TopicsAndNews apply(Response<List<Topic>> topics, Response<List<New>> news) throws Exception {
-                TopicsAndNews topicsAndNews = new TopicsAndNews();
-                if (news.isSuccessful()) {
-                    topicsAndNews.setNews(news.body());
-                }
-                if (topics.isSuccessful()) {
-                    topicsAndNews.setTopics(topics.body());
-                }
-                return topicsAndNews;
+        Observable<TopicsAndNews> observableLambda = Observable.zip(observable1, observable2, (topicsResponse, newsResponse) -> {
+            TopicsAndNews topicsAndNews = new TopicsAndNews();
+            if (newsResponse.isSuccessful()) {
+                topicsAndNews.setNews(newsResponse.body());
             }
+            if (topicsResponse.isSuccessful()) {
+                topicsAndNews.setTopics(topicsResponse.body());
+            }
+            return topicsAndNews;
         });
 
         Observer<TopicsAndNews> subscriber = new RequestSubscriber<TopicsAndNews>() {
@@ -157,7 +188,7 @@ public class LoginModel implements ILoginModel {
             }
         };
 
-        observable.subscribeOn(Schedulers.io())
+        observableLambda.subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
