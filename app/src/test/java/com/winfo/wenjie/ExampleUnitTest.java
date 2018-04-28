@@ -35,8 +35,8 @@ public class ExampleUnitTest {
 //        }).subscribe(o -> System.out.println("保存本地缓存" + o));
 
 
-        Observable.create((ObservableOnSubscribe<User>) emiter->{
-            emiter.onNext(new User("124","asd"));
+        Observable.create((ObservableOnSubscribe<User>) emiter -> {
+            emiter.onNext(new User("124", "asd"));
             emiter.onComplete();
         }).subscribe(user -> System.out.println(user.toString()));
 
@@ -75,8 +75,8 @@ public class ExampleUnitTest {
 
 
     @FunctionalInterface
-    interface MyLambdaInterface {
-        void doSomething(String s, Integer i);
+    interface MyLambdaInterface<T> {
+        String doSomething(T t);
     }
 
 
@@ -86,10 +86,8 @@ public class ExampleUnitTest {
         MathOperation addition = (int a, int b) -> a + b;
 
 
-        MyLambdaInterface myLambdaInterface = (str, i) -> System.out.println(str + i);
-
-        myLambdaInterface.doSomething("asd", 1);
-
+        MyLambdaInterface<User> myLambdaInterface = user -> "124";
+        System.out.println(myLambdaInterface.doSomething(new User("12", "123")));
 
         // 不用类型声明
         MathOperation subtraction = (a, b) -> a - b;
