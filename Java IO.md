@@ -44,22 +44,21 @@ Java I/O 使用了装饰者模式来实现。以 InputStream 为例，InputStrea
 
 实例化一个具有缓存功能的字节流对象时，只需要在 FileInputStream 对象上再套一层 BufferedInputStream 对象即可。
 
-```java
-BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
-```
+
+    BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
+
 
 DataInputStream 装饰者提供了对更多数据类型进行输入的操作，比如 int、double 等基本类型。
 
 批量读入文件内容到字节数组：
 
-```java
+    
 byte[] buf = new byte[20*1024];
 int bytes = 0;
 // 最多读取 buf.length 个字节，返回的是实际读取的个数，返回 -1 的时候表示读到 eof，即文件尾
 while((bytes = in.read(buf, 0 , buf.length)) != -1) {
     // ...
 }
-```
 
 # 四、字符操作
 
@@ -68,11 +67,9 @@ while((bytes = in.read(buf, 0 , buf.length)) != -1) {
 InputStreamReader 实现从文本文件的字节流解码成字符流；OutputStreamWriter 实现字符流编码成为文本文件的字节流。它们继承自 Reader 和 Writer。
 
 编码就是把字符转换为字节，而解码是把字节重新组合成字符。
-
-```java
-byte[] bytes = str.getBytes(encoding);     // 编码
-String str = new String(bytes, encoding)； // 解码
-```
+    
+    byte[] bytes = str.getBytes(encoding);     // 编码
+    String str = new String(bytes, encoding)； // 解码
 
 GBK 编码中，中文占 2 个字节，英文占 1 个字节；UTF-8 编码中，中文占 3 个字节，英文占 1 个字节；Java 使用双字节编码 UTF-16be，中文和英文都占 2 个字节。
 
@@ -92,9 +89,9 @@ transient 关键字可以使一些属性不会被序列化。
 
 **ArrayList 序列化和反序列化的实现** ：ArrayList 中存储数据的数组是用 transient 修饰的，因为这个数组是动态扩展的，并不是所有的空间都被使用，因此就不需要所有的内容都被序列化。通过重写序列化和反序列化方法，使得可以只序列化数组中有内容的那部分数据。
 
-```java
-private transient Object[] elementData;
-```
+
+    private transient Object[] elementData;
+
 
 # 六、网络操作
 
@@ -109,29 +106,26 @@ Java 中的网络支持：
 
 没有公有构造函数，只能通过静态方法来创建实例。
 
-```java
-InetAddress.getByName(String host);
-InetAddress.getByAddress(byte[] addr);
-```
+
+    InetAddress.getByName(String host);
+    InetAddress.getByAddress(byte[] addr);
 
 ## URL
 
 可以直接从 URL 中读取字节流数据
 
-```java
-URL url = new URL("http://www.baidu.com");
-InputStream is = url.openStream();                           // 字节流
-InputStreamReader isr = new InputStreamReader(is, "utf-8");  // 字符流
-BufferedReader br = new BufferedReader(isr);
-String line = br.readLine();
-while (line != null) {
-    System.out.println(line);
-    line = br.readLine();
-}
-br.close();
-isr.close();
-is.close();
-```
+    URL url = new URL("http://www.baidu.com");
+    InputStream is = url.openStream();                           // 字节流
+    InputStreamReader isr = new InputStreamReader(is, "utf-8");  // 字符流
+    BufferedReader br = new BufferedReader(isr);
+    String line = br.readLine();
+    while (line != null) {
+        System.out.println(line);
+        line = br.readLine();
+    }
+    br.close();
+    isr.close();
+    is.close();
 
 ## Sockets
 
@@ -223,50 +217,36 @@ I/O 包和 NIO 已经很好地集成了，java.io.\* 已经以 NIO 为基础重�
 
 ① 为要读取的文件创建 FileInputStream，之后通过 FileInputStream 获取输入 FileChannel；
 
-```java
-FileInputStream fin = new FileInputStream("readandshow.txt");
-FileChannel fic = fin.getChannel();
-```
+    FileInputStream fin = new FileInputStream("readandshow.txt");
+    FileChannel fic = fin.getChannel();
 
 ② 创建一个容量为 1024 的 Buffer；
 
-```java
-ByteBuffer buffer = ByteBuffer.allocate(1024);
-```
+    ByteBuffer buffer = ByteBuffer.allocate(1024);
 
 ③ 将数据从输入 FileChannel 写入到 Buffer 中，如果没有数据的话，read() 方法会返回 -1；
 
-```java
-int r = fcin.read(buffer);
-if (r == -1) {
-     break;
-}
-```
+    int r = fcin.read(buffer);
+    if (r == -1) {
+         break;
+    }
 
 ④ 为要写入的文件创建 FileOutputStream，之后通过 FileOutputStream 获取输出 FileChannel
 
-```java
-FileOutputStream fout = new FileOutputStream("writesomebytes.txt");
-FileChannel foc = fout.getChannel();
-```
+    FileOutputStream fout = new FileOutputStream("writesomebytes.txt");
+    FileChannel foc = fout.getChannel();
 
 ⑤ 调用 flip() 切换读写
 
-```java
-buffer.flip();
-```
+    buffer.flip();
 
 ⑥ 把 Buffer 中的数据读取到输出 FileChannel 中
 
-```java
-foc.write(buffer);
-```
+    foc.write(buffer);
 
 ⑦ 最后调用 clear() 重置缓冲区
 
-```java
-buffer.clear();
-```
+    buffer.clear();
 
 ## 套接字 NIO 实例
 
@@ -274,14 +254,12 @@ buffer.clear();
 
 每一个监听端口都需要有一个 ServerSocketChannel 用来监听连接。
 
-```java
-ServerSocketChannel ssc = ServerSocketChannel.open();
-ssc.configureBlocking(false); // 设置为非阻塞
-
-ServerSocket ss = ssc.socket();
-InetSocketAddress address = new InetSocketAddress(ports[i]);
-ss.bind(address); // 绑定端口号
-```
+    ServerSocketChannel ssc = ServerSocketChannel.open();
+    ssc.configureBlocking(false); // 设置为非阻塞
+    
+    ServerSocket ss = ssc.socket();
+    InetSocketAddress address = new InetSocketAddress(ports[i]);
+    ss.bind(address); // 绑定端口号
 
 ### 2. Selectors
 
@@ -291,10 +269,8 @@ ss.bind(address); // 绑定端口号
 
 SelectionKey 代表这个通道在此 Selector 上的这个注册。当某个 Selector 通知您某个传入事件时，它是通过提供对应于该事件的 SelectionKey 来进行的。SelectionKey 还可以用于取消通道的注册。
 
-```java
-Selector selector = Selector.open();
-SelectionKey key = ssc.register(selector, SelectionKey.OP_ACCEPT);
-```
+    Selector selector = Selector.open();
+    SelectionKey key = ssc.register(selector, SelectionKey.OP_ACCEPT);
 
 ### 3. 主循环
 
@@ -304,29 +280,25 @@ SelectionKey key = ssc.register(selector, SelectionKey.OP_ACCEPT);
 
 我们通过迭代 SelectionKeys 并依次处理每个 SelectionKey 来处理事件。对于每一个 SelectionKey，您必须确定发生的是什么 I/O 事件，以及这个事件影响哪些 I/O 对象。
 
-```java
-int num = selector.select();
-
-Set selectedKeys = selector.selectedKeys();
-Iterator it = selectedKeys.iterator();
-
-while (it.hasNext()) {
-     SelectionKey key = (SelectionKey)it.next();
-     // ... deal with I/O event ...
-}
-```
+    int num = selector.select();
+    
+    Set selectedKeys = selector.selectedKeys();
+    Iterator it = selectedKeys.iterator();
+    
+    while (it.hasNext()) {
+         SelectionKey key = (SelectionKey)it.next();
+         // ... deal with I/O event ...
+    }
 
 ### 4. 监听新连接
 
 程序执行到这里，我们仅注册了 ServerSocketChannel，并且仅注册它们“接收”事件。为确认这一点，我们对 SelectionKey 调用 readyOps() 方法，并检查发生了什么类型的事件：
 
-```java
-if ((key.readyOps() & SelectionKey.OP_ACCEPT)
-     == SelectionKey.OP_ACCEPT) {
-     // Accept the new connection
-     // ...
-}
-```
+    if ((key.readyOps() & SelectionKey.OP_ACCEPT)
+         == SelectionKey.OP_ACCEPT) {
+         // Accept the new connection
+         // ...
+    }
 
 可以肯定地说，readOps() 方法告诉我们该事件是新的连接。
 
@@ -334,17 +306,13 @@ if ((key.readyOps() & SelectionKey.OP_ACCEPT)
 
 因为我们知道这个服务器套接字上有一个传入连接在等待，所以可以安全地接受它；也就是说，不用担心 accept() 操作会阻塞：
 
-```java
-ServerSocketChannel ssc = (ServerSocketChannel)key.channel();
-SocketChannel sc = ssc.accept();
-```
+    ServerSocketChannel ssc = (ServerSocketChannel)key.channel();
+    SocketChannel sc = ssc.accept();
 
 下一步是将新连接的 SocketChannel 配置为非阻塞的。而且由于接受这个连接的目的是为了读取来自套接字的数据，所以我们还必须将 SocketChannel 注册到 Selector 上，如下所示：
 
-```java
-sc.configureBlocking(false);
-SelectionKey newKey = sc.register(selector, SelectionKey.OP_READ);
-```
+    sc.configureBlocking(false);
+    SelectionKey newKey = sc.register(selector, SelectionKey.OP_READ);
 
 注意我们使用 register() 的 OP_READ 参数，将 SocketChannel 注册用于读取而不是接受新连接。
 
@@ -352,9 +320,7 @@ SelectionKey newKey = sc.register(selector, SelectionKey.OP_READ);
 
 在处理 SelectionKey 之后，我们几乎可以返回主循环了。但是我们必须首先将处理过的 SelectionKey 从选定的键集合中删除。如果我们没有删除处理过的键，那么它仍然会在主集合中以一个激活的键出现，这会导致我们尝试再次处理它。我们调用迭代器的 remove() 方法来删除处理过的 SelectionKey：
 
-```java
-it.remove();
-```
+    it.remove();
 
 现在我们可以返回主循环并接受从一个套接字中传入的数据 (或者一个传入的 I/O 事件) 了。
 
@@ -362,14 +328,12 @@ it.remove();
 
 当来自一个套接字的数据到达时，它会触发一个 I/O 事件。这会导致在主循环中调用 Selector.select()，并返回一个或者多个 I/O 事件。这一次， SelectionKey 将被标记为 OP_READ 事件，如下所示：
 
-```java
-} else if ((key.readyOps() & SelectionKey.OP_READ)
-     == SelectionKey.OP_READ) {
-     // Read the data
-     SocketChannel sc = (SocketChannel)key.channel();
-     // ...
-}
-```
+    } else if ((key.readyOps() & SelectionKey.OP_READ)
+         == SelectionKey.OP_READ) {
+         // Read the data
+         SocketChannel sc = (SocketChannel)key.channel();
+         // ...
+    }
 
 ## 内存映射文件
 
@@ -383,9 +347,7 @@ it.remove();
 
 下面代码行将文件的前 1024 个字节映射到内存中，map() 方法返回一个 MappedByteBuffer，它是 ByteBuffer 的子类。因此，您可以像使用其他任何 ByteBuffer 一样使用新映射的缓冲区，操作系统会在需要时负责执行映射。
 
-```java
-MappedByteBuffer mbb = fc.map(FileChannel.MapMode.READ_WRITE, 0, 1024);
-```
+    MappedByteBuffer mbb = fc.map(FileChannel.MapMode.READ_WRITE, 0, 1024);
 
 ## 对比
 
